@@ -7,31 +7,31 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS_QUOTED += \
 "../Sources/Events.c" \
-"../Sources/ProcessorExpert.c" \
+"../Sources/MainProtocoloComunicacion.c" \
 
 C_SRCS += \
 ../Sources/Events.c \
-../Sources/ProcessorExpert.c \
+../Sources/MainProtocoloComunicacion.c \
 
 OBJS += \
 ./Sources/Events_c.obj \
-./Sources/ProcessorExpert_c.obj \
+./Sources/MainProtocoloComunicacion_c.obj \
 
 OBJS_QUOTED += \
 "./Sources/Events_c.obj" \
-"./Sources/ProcessorExpert_c.obj" \
+"./Sources/MainProtocoloComunicacion_c.obj" \
 
 C_DEPS += \
 ./Sources/Events_c.d \
-./Sources/ProcessorExpert_c.d \
+./Sources/MainProtocoloComunicacion_c.d \
 
 C_DEPS_QUOTED += \
 "./Sources/Events_c.d" \
-"./Sources/ProcessorExpert_c.d" \
+"./Sources/MainProtocoloComunicacion_c.d" \
 
 OBJS_OS_FORMAT += \
 ./Sources/Events_c.obj \
-./Sources/ProcessorExpert_c.obj \
+./Sources/MainProtocoloComunicacion_c.obj \
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -48,11 +48,11 @@ Sources/%.d: ../Sources/%.c
 	
 	@echo ' '
 
-Sources/ProcessorExpert_c.obj: ../Sources/ProcessorExpert.c
+Sources/MainProtocoloComunicacion_c.obj: ../Sources/MainProtocoloComunicacion.c
 	@echo 'Building file: $<'
 	@echo 'Executing target #2 $<'
 	@echo 'Invoking: HCS08 Compiler'
-	"$(HC08ToolsEnv)/chc08" -ArgFile"Sources/ProcessorExpert.args" -ObjN="Sources/ProcessorExpert_c.obj" "$<" -Lm="$(@:%.obj=%.d)" -LmCfg=xilmou
+	"$(HC08ToolsEnv)/chc08" -ArgFile"Sources/MainProtocoloComunicacion.args" -ObjN="Sources/MainProtocoloComunicacion_c.obj" "$<" -Lm="$(@:%.obj=%.d)" -LmCfg=xilmou
 	@echo 'Finished building: $<'
 	@echo ' '
 

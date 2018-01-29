@@ -2,7 +2,7 @@
 # Automatically-generated file. Do not edit!
 ################################################################################
 
-#Progress monitor hint: 6
+#Progress monitor hint: 10
 first : all
 -include ../makefile.init
 
@@ -57,22 +57,22 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-Microntrolador.abs \
+ProtocoloComunicacion.abs \
 
 EXECUTABLES_QUOTED += \
-"Microntrolador.abs" \
+"ProtocoloComunicacion.abs" \
 
 EXECUTABLES_OS_FORMAT += \
-Microntrolador.abs \
+ProtocoloComunicacion.abs \
 
 BURNER_OUTPUT_OUTPUTS += \
-Microntrolador.abs.s19 \
+ProtocoloComunicacion.abs.s19 \
 
 BURNER_OUTPUT_OUTPUTS_QUOTED += \
-"Microntrolador.abs.s19" \
+"ProtocoloComunicacion.abs.s19" \
 
 BURNER_OUTPUT_OUTPUTS_OS_FORMAT += \
-Microntrolador.abs.s19 \
+ProtocoloComunicacion.abs.s19 \
 
 
 # All Target
@@ -83,30 +83,30 @@ call-burner := 1
 endif
 endif
 ifeq ($(call-burner),1)
-all: Microntrolador.abs Microntrolador.abs.s19
+all: ProtocoloComunicacion.abs ProtocoloComunicacion.abs.s19
 else
-all: Microntrolador.abs
+all: ProtocoloComunicacion.abs
 endif
 
 # Tool invocations
-Microntrolador.abs: $(OBJS) $(USER_OBJS) ../Project_Settings/Linker_Files/ProcessorExpert.prm
+ProtocoloComunicacion.abs: $(OBJS) $(USER_OBJS) ../Project_Settings/Linker_Files/ProcessorExpert.prm
 	@echo 'Building target: $@'
-	@echo 'Executing target #7 $@'
+	@echo 'Executing target #11 $@'
 	@echo 'Invoking: S08 Linker'
-	"$(HC08ToolsEnv)/linker" -ArgFile"Microntrolador.args" -O"Microntrolador.abs"
+	"$(HC08ToolsEnv)/linker" -ArgFile"ProtocoloComunicacion.args" -O"ProtocoloComunicacion.abs"
 	@echo 'Finished building target: $@'
 	@echo ' '
 
-Microntrolador.abs.s19: $(BBL_SRCS) $(EXECUTABLES)
-	@echo 'Executing target #8 $@'
+ProtocoloComunicacion.abs.s19: $(BBL_SRCS) $(EXECUTABLES)
+	@echo 'Executing target #12 $@'
 	@echo 'Invoking: S08 Burner'
-	"$(HC08ToolsEnv)/burner" -ArgFile"Microntrolador.abs.args" -f="$<" -env"ABS_FILE=$(strip $(EXECUTABLES_OS_FORMAT))"
+	"$(HC08ToolsEnv)/burner" -ArgFile"ProtocoloComunicacion.abs.args" -f="$<" -env"ABS_FILE=$(strip $(EXECUTABLES_OS_FORMAT))"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(S_DEPS_QUOTED) "./*/*.obj" "./*/*/*.obj"  $(CPP_DEPS_QUOTED) $(CC_DEPS_QUOTED) $(S_UPPER_DEPS_QUOTED) $(CXX_DEPS_QUOTED) $(ASM_DEPS_QUOTED) $(BURNER_OUTPUT_OUTPUTS_QUOTED) $(ASM_UPPER_DEPS_QUOTED) $(C_UPPER_DEPS_QUOTED) $(C++_DEPS_QUOTED) $(EXECUTABLES_QUOTED) "./*/*.d" "./*/*/*.d"  $(ProjDirPath)/FLASH/Microntrolador.abs $(ProjDirPath)/FLASH/Microntrolador.abs.args $(ProjDirPath)/FLASH/Microntrolador.abs.s19 $(ProjDirPath)/FLASH/Microntrolador.args $(ProjDirPath)/FLASH/Microntrolador.map
+	-$(RM) $(S_DEPS_QUOTED) "./*/*.obj" "./*/*/*.obj"  $(CPP_DEPS_QUOTED) $(CC_DEPS_QUOTED) $(S_UPPER_DEPS_QUOTED) $(CXX_DEPS_QUOTED) $(ASM_DEPS_QUOTED) $(BURNER_OUTPUT_OUTPUTS_QUOTED) $(ASM_UPPER_DEPS_QUOTED) $(C_UPPER_DEPS_QUOTED) $(C++_DEPS_QUOTED) $(EXECUTABLES_QUOTED) "./*/*.d" "./*/*/*.d"  $(ProjDirPath)/FLASH/ProtocoloComunicacion.abs $(ProjDirPath)/FLASH/ProtocoloComunicacion.abs.args $(ProjDirPath)/FLASH/ProtocoloComunicacion.abs.s19 $(ProjDirPath)/FLASH/ProtocoloComunicacion.args $(ProjDirPath)/FLASH/ProtocoloComunicacion.map
 	-@echo ' '
 
 .PHONY: all clean dependents explicit-dependencies warning-messages

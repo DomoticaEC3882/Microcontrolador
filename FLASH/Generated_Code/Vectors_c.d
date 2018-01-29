@@ -1,9 +1,14 @@
 
+
 Generated_Code/Vectors_c.obj: \
-	D:/Proyecto/Microcontrolador/Project_Headers/../Generated_Code/Vectors.c \
-	D:/Proyecto/Microcontrolador/Generated_Code/Cpu.h \
-	D:/Proyecto/Microcontrolador/Generated_Code/PE_Types.h \
-	D:/Proyecto/Microcontrolador/Generated_Code/PE_Error.h \
-	D:/Proyecto/Microcontrolador/Generated_Code/PE_Const.h \
-	D:/Proyecto/Microcontrolador/Generated_Code/IO_Map.h 
+	C:/Users/Jorge/workspace/ProtocoloComunicacion/Project_Headers/../Generated_Code/Vectors.c \
+	C:/Users/Jorge/workspace/ProtocoloComunicacion/Generated_Code/Cpu.h \
+	C:/Users/Jorge/workspace/ProtocoloComunicacion/Generated_Code/PE_Types.h \
+	C:/Users/Jorge/workspace/ProtocoloComunicacion/Generated_Code/PE_Error.h \
+	C:/Users/Jorge/workspace/ProtocoloComunicacion/Generated_Code/PE_Const.h \
+	C:/Users/Jorge/workspace/ProtocoloComunicacion/Generated_Code/IO_Map.h \
+	C:/Users/Jorge/workspace/ProtocoloComunicacion/Generated_Code/TI1.h \
+	C:/Users/Jorge/workspace/ProtocoloComunicacion/Generated_Code/Bit1.h \
+	C:/Users/Jorge/workspace/ProtocoloComunicacion/Generated_Code/AS1.h \
+	C:/Users/Jorge/workspace/ProtocoloComunicacion/Generated_Code/AD1.h 
 
