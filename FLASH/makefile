@@ -2,7 +2,7 @@
 # Automatically-generated file. Do not edit!
 ################################################################################
 
-#Progress monitor hint: 6
+#Progress monitor hint: 9
 first : all
 -include ../makefile.init
 
@@ -91,14 +91,14 @@ endif
 # Tool invocations
 Microntrolador.abs: $(OBJS) $(USER_OBJS) ../Project_Settings/Linker_Files/ProcessorExpert.prm
 	@echo 'Building target: $@'
-	@echo 'Executing target #7 $@'
+	@echo 'Executing target #10 $@'
 	@echo 'Invoking: S08 Linker'
 	"$(HC08ToolsEnv)/linker" -ArgFile"Microntrolador.args" -O"Microntrolador.abs"
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 Microntrolador.abs.s19: $(BBL_SRCS) $(EXECUTABLES)
-	@echo 'Executing target #8 $@'
+	@echo 'Executing target #11 $@'
 	@echo 'Invoking: S08 Burner'
 	"$(HC08ToolsEnv)/burner" -ArgFile"Microntrolador.abs.args" -f="$<" -env"ABS_FILE=$(strip $(EXECUTABLES_OS_FORMAT))"
 	@echo 'Finished building: $@'

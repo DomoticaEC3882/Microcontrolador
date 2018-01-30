@@ -30,6 +30,9 @@
 /* Including needed modules to compile this module/procedure */
 #include "Cpu.h"
 #include "Events.h"
+#include "AS1.h"
+#include "AD1.h"
+#include "TI1.h"
 /* Include shared modules, which are used for whole project */
 #include "PE_Types.h"
 #include "PE_Error.h"
@@ -39,6 +42,15 @@
 /* User includes (#include below this line is not maintained by Processor Expert) */
 #include "Events.h"
 #include "ProcessorExpert.h"
+
+/*Inicializacion de la maquina de estados*/
+unsigned char estado = ESPERAR;
+
+//variables para el protocolo de comunicacion
+unsigned int valorADC;
+unsigned char error;
+unsigned int bytesEnviados = 3;
+unsigned char mensaje[3];
 
 
 void main(void)
@@ -50,29 +62,30 @@ void main(void)
   /*** End of Processor Expert internal initialization.                    ***/
 
   /* Write your code here */
-  /* For example: for(;;) { } */
-
-  /*** Don't write any code pass this line, or it will be deleted during code generation. ***/
-  /*** Processor Expert end of main routine. DON'T MODIFY THIS CODE!!! ***/
-  /*INICIALIZA LA MAQUINA DE ESTADO*/
-  estado = ESPERAR;
-  
-  for(;;){
+  for(;;) { 
 	  switch(estado){
 	  	  case ESPERAR:
-	  		  estado = MEDIR;
 	  		  break;
 	  	  case MEDIR:
+	  		  AD1_Measure(TRUE);
+	  		  error = AD1_GetValue(&valorADC);
 	  		  estado = ENVIAR;
 	  		  break;
 	  	  case ENVIAR:
+	  		  mensaje[0] = 0xF1;
+	  		  mensaje[1] = (valorADC>>7) & 0x1F;
+	  		  mensaje[2] = (valorADC) & 0x7F;
+	  		  error = AS1_SendBlock(mensaje,3,&bytesEnviados);
 	  		  estado = ESPERAR;
 	  		  break;
 	  	  default:
 	  		  break;
 	  }
-	  
   }
+
+  /*** Don't write any code pass this line, or it will be deleted during code generation. ***/
+  /*** Processor Expert end of main routine. DON'T MODIFY THIS CODE!!! ***/
+  for(;;){}
   /*** Processor Expert end of main routine. DON'T WRITE CODE BELOW!!! ***/
 } /*** End of main routine. DO NOT MODIFY THIS TEXT!!! ***/
 

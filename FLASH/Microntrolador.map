@@ -15,8 +15,11 @@ FILE SECTION
 Events_c.obj                            Model: SMALL,         Lang: ANSI-C
 ProcessorExpert_c.obj                   Model: SMALL,         Lang: ANSI-C
 start08_c.obj                           Model: SMALL,         Lang: ANSI-C
+AD1_c.obj                               Model: SMALL,         Lang: ANSI-C
+AS1_c.obj                               Model: SMALL,         Lang: ANSI-C
 Cpu_c.obj                               Model: SMALL,         Lang: ANSI-C
 IO_Map_c.obj                            Model: SMALL,         Lang: ANSI-C
+TI1_c.obj                               Model: SMALL,         Lang: ANSI-C
 Vectors_c.obj                           Model: SMALL,         Lang: ANSI-C
 rtshc08.c.o (ansifs.lib)                Model: SMALL,         Lang: ANSI-C
 
@@ -24,18 +27,19 @@ rtshc08.c.o (ansifs.lib)                Model: SMALL,         Lang: ANSI-C
 STARTUP SECTION
 ---------------------------------------------------------------------------------------------
 Entry point: 0x208A (_EntryPoint)
-_startupData is allocated at 0x211B and uses 6 Bytes
+_startupData is allocated at 0x2130 and uses 6 Bytes
 extern struct _tagStartup {
   unsigned nofZeroOut     1
-  _Range   pZeroOut       0xA0     2
-  _Copy    *toCopyDownBeg 0x2206
+  _Range   pZeroOut       0xA0     39
+  _Copy    *toCopyDownBeg 0x2467
 } _startupData;
 
 *********************************************************************************************
 SECTION-ALLOCATION SECTION
 Section Name                    Size  Type     From       To       Segment
 ---------------------------------------------------------------------------------------------
-.text                            217     R     0x212D     0x2205   ROM
+.data                              2   R/W       0xA0       0xA1   RAM
+.text                            805     R     0x2142     0x2466   ROM
 .abs_section_ffbd                  1     R     0xFFBD     0xFFBD   .absSeg0
 .abs_section_ffbf                  1     R     0xFFBF     0xFFBF   .absSeg1
 .abs_section_0                     1   N/I        0x0        0x0   .absSeg2
@@ -219,16 +223,16 @@ Section Name                    Size  Type     From       To       Segment
 .abs_section_1816                  2   N/I     0x1816     0x1817   .absSeg180
 .abs_section_1870                  2   N/I     0x1870     0x1871   .absSeg181
 .abs_section_ffc0                 64     R     0xFFC0     0xFFFF   .absSeg182
-.bss                               1   R/W       0xA0       0xA0   RAM
-.startData                        18     R     0x211B     0x212C   ROM
-.init                            155     R     0x2080     0x211A   ROM
-.common                            1   R/W       0xA1       0xA1   RAM
-.stack                           512   R/W       0xA2      0x2A1   RAM
-.copy                              2     R     0x2206     0x2207   ROM
+.bss                              25   R/W       0xA2       0xBA   RAM
+.startData                        18     R     0x2130     0x2141   ROM
+.init                            176     R     0x2080     0x212F   ROM
+.common                           12   R/W       0xBB       0xC6   RAM
+.stack                           512   R/W       0xC7      0x2C6   RAM
+.copy                              7     R     0x2467     0x246D   ROM
 
 Summary of section sizes per section type:
-READ_ONLY (R):         1CA (dec:      458)
-READ_WRITE (R/W):      202 (dec:      514)
+READ_ONLY (R):         430 (dec:     1072)
+READ_WRITE (R/W):      227 (dec:      551)
 NO_INIT (N/I):          CF (dec:      207)
 
 *********************************************************************************************
@@ -242,39 +246,80 @@ OBJECT-ALLOCATION SECTION
 ---------------------------------------------------------------------------------------------
 MODULE:                 -- Events_c.obj --
 - PROCEDURES:
-     Cpu_OnSwINT                               212D       1       1       1   .text       
+     Cpu_OnSwINT                               2142       1       1       1   .text       
+     AD1_OnEnd                                 2143       1       1       1   .text       
+     AS1_OnError                               2144       1       1       2   .text       
+     AS1_OnRxChar                              2145       1       1       1   .text       
+     AS1_OnTxChar                              2146       1       1       1   .text       
+     AS1_OnFullRxBuf                           2147       1       1       1   .text       
+     AS1_OnFreeTxBuf                           2148       1       1       1   .text       
+     TI1_OnInterrupt                           2149       B      11       1   .text       
 - VARIABLES:
 MODULE:                 -- ProcessorExpert_c.obj --
 - PROCEDURES:
-     main                                      212E      25      37       5   .text       
+     main                                      2154      5B      91       1   .text       
 - VARIABLES:
-     estado                                      A0       1       1       2   .bss        
+     bytesEnviados                               A0       2       2       1   .data       
+     estado                                      A2       1       1       4   .bss        
+     valorADC                                    BB       2       2       3   .common     
+     error                                       BD       1       1       2   .common     
+     mensaje                                     BE       3       3       4   .common     
 MODULE:                 -- start08_c.obj --
 - PROCEDURES:
-     loadByte                                  2153       E      14       5   .text       
-     Init                                      2161      6D     109       1   .text       
-     _Startup                                  21CE       9       9       1   .text       
+     loadByte                                  21AF       E      14       5   .text       
+     Init                                      21BD      6D     109       1   .text       
+     _Startup                                  222A       9       9       1   .text       
 - VARIABLES:
-     _startupData                              211B       6       6       4   .startData  
+     _startupData                              2130       6       6       4   .startData  
 - LABELS:
-     __SEG_END_SSTACK                           2A2       0       0       1               
+     __SEG_END_SSTACK                           2C7       0       0       1               
+MODULE:                 -- AD1_c.obj --
+- PROCEDURES:
+     AD1_Interrupt                             2233      19      25       1   .text       
+     AD1_HWEnDi                                224C       D      13       1   .text       
+     AD1_Measure                               2259      1E      30       1   .text       
+     AD1_GetValue                              2277      15      21       1   .text       
+     AD1_Init                                  228C      10      16       1   .text       
+- VARIABLES:
+     OutFlg                                      A3       1       1       4   .bss        
+     ModeFlg                                     A4       1       1       6   .bss        
+     AD1_OutV                                    C1       2       2       4   .common     
+MODULE:                 -- AS1_c.obj --
+- PROCEDURES:
+     AS1_SendBlock                             229C      A0     160       1   .text       
+     AS1_InterruptRx                           233C      60      96       1   .text       
+     AS1_InterruptTx                           239C      5A      90       1   .text       
+     AS1_InterruptError                        23F6      11      17       1   .text       
+     AS1_Init                                  2407      33      51       1   .text       
+- VARIABLES:
+     SerFlag                                     A5       1       1       8   .bss        
+     InpIndxR                                    A6       1       1       1   .bss        
+     InpIndxW                                    A7       1       1       3   .bss        
+     InpBuffer                                   A8       8       8       1   .bss        
+     OutIndxR                                    B0       1       1       3   .bss        
+     OutIndxW                                    B1       1       1       3   .bss        
+     OutBuffer                                   B2       8       8       2   .bss        
+     OnFreeTxBuf_semaphore                       BA       1       1       5   .bss        
+     AS1_InpLen                                  C3       1       1       4   .common     
+     AS1_OutLen                                  C4       1       1       6   .common     
 MODULE:                 -- Cpu_c.obj --
 - PROCEDURES:
      Cpu_SWIInterrupt                          2080       6       6       1   .init       
-     Cpu_Interrupt                             2086       4       4      30   .init       
+     Cpu_Interrupt                             2086       4       4      25   .init       
      _EntryPoint                               208A      44      68       1   .init       
-     PE_low_level_init                         20CE      4D      77       1   .init       
+     PE_low_level_init                         20CE      62      98       1   .init       
 - VARIABLES:
      NVPROT_INIT                               FFBD       1       1       0   .abs_section_ffbd
      NVOPT_INIT                                FFBF       1       1       0   .abs_section_ffbf
-     CCR_lock                                    A1       1       1       1   .common     
+     CCR_reg                                     C5       1       1       2   .common     
+     CCR_lock                                    C6       1       1       5   .common     
 MODULE:                 -- IO_Map_c.obj --
 - PROCEDURES:
 - VARIABLES:
      _PTAD                                        0       1       1       0   .abs_section_0
      _PTADD                                       1       1       1       0   .abs_section_1
-     _PTBD                                        2       1       1       0   .abs_section_2
-     _PTBDD                                       3       1       1       0   .abs_section_3
+     _PTBD                                        2       1       1       1   .abs_section_2
+     _PTBDD                                       3       1       1       2   .abs_section_3
      _PTCD                                        4       1       1       0   .abs_section_4
      _PTCDD                                       5       1       1       0   .abs_section_5
      _PTDD                                        6       1       1       0   .abs_section_6
@@ -287,10 +332,10 @@ MODULE:                 -- IO_Map_c.obj --
      _KBI1PE                                      D       1       1       0   .abs_section_d
      _KBI1ES                                      E       1       1       0   .abs_section_e
      _IRQSC                                       F       1       1       0   .abs_section_f
-     _ADCSC1                                     10       1       1       0   .abs_section_10
-     _ADCSC2                                     11       1       1       0   .abs_section_11
-     _ADCCFG                                     16       1       1       0   .abs_section_16
-     _APCTL1                                     17       1       1       0   .abs_section_17
+     _ADCSC1                                     10       1       1       2   .abs_section_10
+     _ADCSC2                                     11       1       1       1   .abs_section_11
+     _ADCCFG                                     16       1       1       1   .abs_section_16
+     _APCTL1                                     17       1       1       1   .abs_section_17
      _APCTL2                                     18       1       1       0   .abs_section_18
      _APCTL3                                     19       1       1       0   .abs_section_19
      _ACMP1SC                                    1A       1       1       0   .abs_section_1a
@@ -299,12 +344,12 @@ MODULE:                 -- IO_Map_c.obj --
      _PTGDD                                      1D       1       1       0   .abs_section_1d
      _PTHD                                       1E       1       1       0   .abs_section_1e
      _PTHDD                                      1F       1       1       0   .abs_section_1f
-     _SCI1C1                                     22       1       1       0   .abs_section_22
-     _SCI1C2                                     23       1       1       0   .abs_section_23
-     _SCI1S1                                     24       1       1       0   .abs_section_24
-     _SCI1S2                                     25       1       1       0   .abs_section_25
-     _SCI1C3                                     26       1       1       0   .abs_section_26
-     _SCI1D                                      27       1       1       0   .abs_section_27
+     _SCI1C1                                     22       1       1       1   .abs_section_22
+     _SCI1C2                                     23       1       1       6   .abs_section_23
+     _SCI1S1                                     24       1       1       3   .abs_section_24
+     _SCI1S2                                     25       1       1       1   .abs_section_25
+     _SCI1C3                                     26       1       1       3   .abs_section_26
+     _SCI1D                                      27       1       1       3   .abs_section_27
      _SPI1C1                                     28       1       1       0   .abs_section_28
      _SPI1C2                                     29       1       1       0   .abs_section_29
      _SPI1BR                                     2A       1       1       0   .abs_section_2a
@@ -371,9 +416,9 @@ MODULE:                 -- IO_Map_c.obj --
      _FPROT                                    1824       1       1       0   .abs_section_1824
      _FSTAT                                    1825       1       1       0   .abs_section_1825
      _FCMD                                     1826       1       1       0   .abs_section_1826
-     _RTCSC                                    1830       1       1       0   .abs_section_1830
+     _RTCSC                                    1830       1       1       2   .abs_section_1830
      _RTCCNT                                   1831       1       1       0   .abs_section_1831
-     _RTCMOD                                   1832       1       1       0   .abs_section_1832
+     _RTCMOD                                   1832       1       1       3   .abs_section_1832
      _SPI2C1                                   1838       1       1       0   .abs_section_1838
      _SPI2C2                                   1839       1       1       0   .abs_section_1839
      _SPI2BR                                   183A       1       1       0   .abs_section_183a
@@ -424,9 +469,9 @@ MODULE:                 -- IO_Map_c.obj --
      _PTECLR                                   187B       1       1       0   .abs_section_187b
      _PTCTOG                                   187C       1       1       0   .abs_section_187c
      _PTETOG                                   187D       1       1       0   .abs_section_187d
-     _ADCR                                       12       2       2       0   .abs_section_12
+     _ADCR                                       12       2       2       2   .abs_section_12
      _ADCCV                                      14       2       2       0   .abs_section_14
-     _SCI1BD                                     20       2       2       0   .abs_section_20
+     _SCI1BD                                     20       2       2       2   .abs_section_20
      _TPM1CNT                                    41       2       2       0   .abs_section_41
      _TPM1MOD                                    43       2       2       0   .abs_section_43
      _TPM1C0V                                    46       2       2       0   .abs_section_46
@@ -451,43 +496,57 @@ MODULE:                 -- IO_Map_c.obj --
      _DBGCC                                    1814       2       2       0   .abs_section_1814
      _DBGF                                     1816       2       2       0   .abs_section_1816
      _SCI2BD                                   1870       2       2       0   .abs_section_1870
+MODULE:                 -- TI1_c.obj --
+- PROCEDURES:
+     TI1_Init                                  243A      14      20       1   .text       
+     TI1_Interrupt                             244E       D      13       1   .text       
+- VARIABLES:
 MODULE:                 -- Vectors_c.obj --
 - PROCEDURES:
 - VARIABLES:
      _vect                                     FFC0      40      64       0   .abs_section_ffc0
 MODULE:                 -- rtshc08.c.o (ansifs.lib) --
 - PROCEDURES:
-     _Jump_Table_Header_Addr                   21D7      2F      47       1   .text       
+     _ILSR                                     245B       C      12       1   .text       
 - VARIABLES:
 
 *********************************************************************************************
 MODULE STATISTIC
   Name                                      Data   Code  Const
 ---------------------------------------------------------------------------------------------
-  Events_c.obj                                 0      1      0
-  ProcessorExpert_c.obj                        1     37      0
+  Events_c.obj                                 0     18      0
+  ProcessorExpert_c.obj                        9     91      0
   start08_c.obj                                0    132      0
-  Cpu_c.obj                                    1    155      2
+  AD1_c.obj                                    4    105      0
+  AS1_c.obj                                   24    414      0
+  Cpu_c.obj                                    2    176      2
   IO_Map_c.obj                               207      0      0
+  TI1_c.obj                                    0     33      0
   Vectors_c.obj                                0      0     64
-  rtshc08.c.o (ansifs.lib)                     0     47      0
-  other                                      512     18      2
+  rtshc08.c.o (ansifs.lib)                     0     12      0
+  other                                      512     18      7
 
 *********************************************************************************************
 SECTION USE IN OBJECT-ALLOCATION SECTION
 ---------------------------------------------------------------------------------------------
 SECTION: ".text"
-  Cpu_OnSwINT main loadByte Init _Startup _Jump_Table_Header_Addr 
+  Cpu_OnSwINT AD1_OnEnd AS1_OnError AS1_OnRxChar AS1_OnTxChar AS1_OnFullRxBuf 
+  AS1_OnFreeTxBuf TI1_OnInterrupt main loadByte Init _Startup AD1_Interrupt 
+  AD1_HWEnDi AD1_Measure AD1_GetValue AD1_Init AS1_SendBlock AS1_InterruptRx 
+  AS1_InterruptTx AS1_InterruptError AS1_Init TI1_Init TI1_Interrupt _ILSR 
+SECTION: ".data"
+  bytesEnviados 
 SECTION: ".bss"
-  estado 
+  estado OutFlg ModeFlg SerFlag InpIndxR InpIndxW InpBuffer OutIndxR OutIndxW 
+  OutBuffer OnFreeTxBuf_semaphore 
 SECTION: ".init"
   Cpu_SWIInterrupt Cpu_Interrupt _EntryPoint PE_low_level_init 
+SECTION: ".common"
+  valorADC error mensaje AD1_OutV AS1_InpLen AS1_OutLen CCR_reg CCR_lock 
 SECTION: ".abs_section_ffbd"
   NVPROT_INIT 
 SECTION: ".abs_section_ffbf"
   NVOPT_INIT 
-SECTION: ".common"
-  CCR_lock 
 SECTION: ".abs_section_0"
   _PTAD 
 SECTION: ".abs_section_1"
@@ -857,8 +916,8 @@ OBJECT LIST SORTED BY ADDRESS
 ---------------------------------------------------------------------------------------------
      _PTAD                                        0       1       1       0   .abs_section_0
      _PTADD                                       1       1       1       0   .abs_section_1
-     _PTBD                                        2       1       1       0   .abs_section_2
-     _PTBDD                                       3       1       1       0   .abs_section_3
+     _PTBD                                        2       1       1       1   .abs_section_2
+     _PTBDD                                       3       1       1       2   .abs_section_3
      _PTCD                                        4       1       1       0   .abs_section_4
      _PTCDD                                       5       1       1       0   .abs_section_5
      _PTDD                                        6       1       1       0   .abs_section_6
@@ -871,12 +930,12 @@ OBJECT LIST SORTED BY ADDRESS
      _KBI1PE                                      D       1       1       0   .abs_section_d
      _KBI1ES                                      E       1       1       0   .abs_section_e
      _IRQSC                                       F       1       1       0   .abs_section_f
-     _ADCSC1                                     10       1       1       0   .abs_section_10
-     _ADCSC2                                     11       1       1       0   .abs_section_11
-     _ADCR                                       12       2       2       0   .abs_section_12
+     _ADCSC1                                     10       1       1       2   .abs_section_10
+     _ADCSC2                                     11       1       1       1   .abs_section_11
+     _ADCR                                       12       2       2       2   .abs_section_12
      _ADCCV                                      14       2       2       0   .abs_section_14
-     _ADCCFG                                     16       1       1       0   .abs_section_16
-     _APCTL1                                     17       1       1       0   .abs_section_17
+     _ADCCFG                                     16       1       1       1   .abs_section_16
+     _APCTL1                                     17       1       1       1   .abs_section_17
      _APCTL2                                     18       1       1       0   .abs_section_18
      _APCTL3                                     19       1       1       0   .abs_section_19
      _ACMP1SC                                    1A       1       1       0   .abs_section_1a
@@ -885,13 +944,13 @@ OBJECT LIST SORTED BY ADDRESS
      _PTGDD                                      1D       1       1       0   .abs_section_1d
      _PTHD                                       1E       1       1       0   .abs_section_1e
      _PTHDD                                      1F       1       1       0   .abs_section_1f
-     _SCI1BD                                     20       2       2       0   .abs_section_20
-     _SCI1C1                                     22       1       1       0   .abs_section_22
-     _SCI1C2                                     23       1       1       0   .abs_section_23
-     _SCI1S1                                     24       1       1       0   .abs_section_24
-     _SCI1S2                                     25       1       1       0   .abs_section_25
-     _SCI1C3                                     26       1       1       0   .abs_section_26
-     _SCI1D                                      27       1       1       0   .abs_section_27
+     _SCI1BD                                     20       2       2       2   .abs_section_20
+     _SCI1C1                                     22       1       1       1   .abs_section_22
+     _SCI1C2                                     23       1       1       6   .abs_section_23
+     _SCI1S1                                     24       1       1       3   .abs_section_24
+     _SCI1S2                                     25       1       1       1   .abs_section_25
+     _SCI1C3                                     26       1       1       3   .abs_section_26
+     _SCI1D                                      27       1       1       3   .abs_section_27
      _SPI1C1                                     28       1       1       0   .abs_section_28
      _SPI1C2                                     29       1       1       0   .abs_section_29
      _SPI1BR                                     2A       1       1       0   .abs_section_2a
@@ -953,8 +1012,26 @@ OBJECT LIST SORTED BY ADDRESS
      _LBP                                        7D       1       1       0   .abs_section_7d
      _LB                                         7E       1       1       0   .abs_section_7e
      _LAPAB                                      7F       1       1       0   .abs_section_7f
-     estado                                      A0       1       1       2   .bss        
-     CCR_lock                                    A1       1       1       1   .common     
+     bytesEnviados                               A0       2       2       1   .data       
+     estado                                      A2       1       1       4   .bss        
+     OutFlg                                      A3       1       1       4   .bss        
+     ModeFlg                                     A4       1       1       6   .bss        
+     SerFlag                                     A5       1       1       8   .bss        
+     InpIndxR                                    A6       1       1       1   .bss        
+     InpIndxW                                    A7       1       1       3   .bss        
+     InpBuffer                                   A8       8       8       1   .bss        
+     OutIndxR                                    B0       1       1       3   .bss        
+     OutIndxW                                    B1       1       1       3   .bss        
+     OutBuffer                                   B2       8       8       2   .bss        
+     OnFreeTxBuf_semaphore                       BA       1       1       5   .bss        
+     valorADC                                    BB       2       2       3   .common     
+     error                                       BD       1       1       2   .common     
+     mensaje                                     BE       3       3       4   .common     
+     AD1_OutV                                    C1       2       2       4   .common     
+     AS1_InpLen                                  C3       1       1       4   .common     
+     AS1_OutLen                                  C4       1       1       6   .common     
+     CCR_reg                                     C5       1       1       2   .common     
+     CCR_lock                                    C6       1       1       5   .common     
      _SRS                                      1800       1       1       0   .abs_section_1800
      _SBDFR                                    1801       1       1       0   .abs_section_1801
      _SOPT1                                    1802       1       1       1   .abs_section_1802
@@ -983,9 +1060,9 @@ OBJECT LIST SORTED BY ADDRESS
      _FPROT                                    1824       1       1       0   .abs_section_1824
      _FSTAT                                    1825       1       1       0   .abs_section_1825
      _FCMD                                     1826       1       1       0   .abs_section_1826
-     _RTCSC                                    1830       1       1       0   .abs_section_1830
+     _RTCSC                                    1830       1       1       2   .abs_section_1830
      _RTCCNT                                   1831       1       1       0   .abs_section_1831
-     _RTCMOD                                   1832       1       1       0   .abs_section_1832
+     _RTCMOD                                   1832       1       1       3   .abs_section_1832
      _SPI2C1                                   1838       1       1       0   .abs_section_1838
      _SPI2C2                                   1839       1       1       0   .abs_section_1839
      _SPI2BR                                   183A       1       1       0   .abs_section_183a
@@ -1038,15 +1115,34 @@ OBJECT LIST SORTED BY ADDRESS
      _PTCTOG                                   187C       1       1       0   .abs_section_187c
      _PTETOG                                   187D       1       1       0   .abs_section_187d
      Cpu_SWIInterrupt                          2080       6       6       1   .init       
-     Cpu_Interrupt                             2086       4       4      30   .init       
+     Cpu_Interrupt                             2086       4       4      25   .init       
      _EntryPoint                               208A      44      68       1   .init       
-     PE_low_level_init                         20CE      4D      77       1   .init       
-     Cpu_OnSwINT                               212D       1       1       1   .text       
-     main                                      212E      25      37       5   .text       
-     loadByte                                  2153       E      14       5   .text       
-     Init                                      2161      6D     109       1   .text       
-     _Startup                                  21CE       9       9       1   .text       
-     _Jump_Table_Header_Addr                   21D7      2F      47       1   .text       
+     PE_low_level_init                         20CE      62      98       1   .init       
+     Cpu_OnSwINT                               2142       1       1       1   .text       
+     AD1_OnEnd                                 2143       1       1       1   .text       
+     AS1_OnError                               2144       1       1       2   .text       
+     AS1_OnRxChar                              2145       1       1       1   .text       
+     AS1_OnTxChar                              2146       1       1       1   .text       
+     AS1_OnFullRxBuf                           2147       1       1       1   .text       
+     AS1_OnFreeTxBuf                           2148       1       1       1   .text       
+     TI1_OnInterrupt                           2149       B      11       1   .text       
+     main                                      2154      5B      91       1   .text       
+     loadByte                                  21AF       E      14       5   .text       
+     Init                                      21BD      6D     109       1   .text       
+     _Startup                                  222A       9       9       1   .text       
+     AD1_Interrupt                             2233      19      25       1   .text       
+     AD1_HWEnDi                                224C       D      13       1   .text       
+     AD1_Measure                               2259      1E      30       1   .text       
+     AD1_GetValue                              2277      15      21       1   .text       
+     AD1_Init                                  228C      10      16       1   .text       
+     AS1_SendBlock                             229C      A0     160       1   .text       
+     AS1_InterruptRx                           233C      60      96       1   .text       
+     AS1_InterruptTx                           239C      5A      90       1   .text       
+     AS1_InterruptError                        23F6      11      17       1   .text       
+     AS1_Init                                  2407      33      51       1   .text       
+     TI1_Init                                  243A      14      20       1   .text       
+     TI1_Interrupt                             244E       D      13       1   .text       
+     _ILSR                                     245B       C      12       1   .text       
      NVPROT_INIT                               FFBD       1       1       0   .abs_section_ffbd
      NVOPT_INIT                                FFBF       1       1       0   .abs_section_ffbf
      _vect                                     FFC0      40      64       0   .abs_section_ffc0
@@ -1055,6 +1151,10 @@ OBJECT LIST SORTED BY ADDRESS
 UNUSED-OBJECTS SECTION
 ---------------------------------------------------------------------------------------------
 NOT USED PROCEDURES
+AD1_c.obj:
+  AD1_GetValue8 AD1_GetValue16 
+AS1_c.obj:
+  AS1_RecvChar AS1_SendChar AS1_RecvBlock AS1_ClearRxBuf AS1_ClearTxBuf 
 rtshc08.c.o (ansifs.lib):
   _PUSH_ARGS_L _PUSH_ARGS_D _ENTER_UNARY_L _ENTER_UNARY_L64 _ENTER_UNARY_L64_4 
   _ENTER_BINARY_L _ENTER_BINARY_L_RC _ENTER_BINARY_L_LC _ENTER_BINARY_L64 
@@ -1064,39 +1164,46 @@ rtshc08.c.o (ansifs.lib):
   _LDIVMOD _NEG_L_HX _ABS_L_HX _SPLITSIGN_L _LMODU_k_is_k_mod_j 
   _LDIVU_k_is_k_div_j _LMODS_k_is_k_mod_j _LDIVS_k_is_k_div_j _LCMP_k_rel_j 
   _CMP24_k_rel_j _BMULS _BDIVS _BMODS _IMUL_STAR08 _IDIVS_STAR08 _IDIVU_STAR08 
-  _IMODS_STAR08 _IMODU_STAR08 _IDIVU_8 _IMODU_8 _IASR _ILSR _ILSL _ICMP _LINC 
-  _LDEC _LNEG _LNOT _LADD _LADD_RC _LSUB _LSUB_LC _LSUB_RC _LAND _LAND_RC _LOR 
+  _IMODS_STAR08 _IMODU_STAR08 _IDIVU_8 _IMODU_8 _IASR _ILSL _ICMP _LINC _LDEC 
+  _LNEG _LNOT _LADD _LADD_RC _LSUB _LSUB_LC _LSUB_RC _LAND _LAND_RC _LOR 
   _LOR_RC _LXOR _LXOR_RC _LMUL _LMUL_RC _LDIVS _LDIVS_LC _LDIVS_RC _LDIVU 
   _LDIVU_LC _LDIVU_RC _LMODS _LMODS_LC _LMODS_RC _LMODU _LMODU_LC _LMODU_RC 
   _LASR _LLSR _LLSL _LCMP _LCMP_RC _PUSH_ARGS_24 _ENTER_BINARY_24_RC 
   _ENTER_BINARY_24 _CMP24 _CMP24_RC _COPY _COPY_L _POP32 _POP64 _STORE32 
   _STORE64 _SEXT8_32 _SEXT16_32 _CALL_STAR08 _CALL_STAR08_FAR _Jump_Table_Addr 
-  _Jump_Table_Offset _Jump_Table_Header_Offset _Search_Table_16_Addr 
-  _Search_Table_16_Offset _Search_Table_8_Addr _Search_Table_8_Offset _PUSH_CC 
-  _POP_CC _CONV_FAR_TO_NEAR _CONV_FAR_TO_LINEAR _CONV_LINEAR_TO_FAR F_CLRK 
-  F_CLRK_Unary F_NANK F_INFK F_TLK F_XGKL _UNPACK_k_to_K _UNPACK_k_to_K_Unary 
-  _UNPACK_j_to_L _PACK_K_to_k _PACK_K_to_k_Unary F_NORMK _FADD_K_is_K_plus_L 
-  _FMUL_K_is_K_times_L _FDIV_K_is_L_div_K _F_LONGK _F_FLOATK _FCMP_k_rel_j 
-  _FADD_Common _FSUB_Common _FMUL_Common _FDIV_Common _FADD _FADD_RC _FSUB 
-  _FSUB_RC _FSUB_LC _FMUL _FMUL_RC _FDIV _FDIV_RC _FDIV_LC _FSTRUNC _FUTRUNC 
-  _FNEG _FABS _FCMP _FCMP_RC _FINC _FDEC _FSFLOAT _FUFLOAT D_TLK D_TKRes D_XGKL 
-  D_CLRK D_CLRK_Unary D_NANK D_INFK D_INFK_Unary _DUNPACK_k_to_K 
-  _DUNPACK_k_to_K_Unary _DUNPACK_j_to_L _DPACK_K_to_k _DPACK_K_to_k_Unary 
-  D_NORMK_Unary D_NORMK _DADD_K_is_K_plus_L _DMUL_K_is_K_times_L 
-  _DDIV_K_is_L_div_K _DCMP_k_rel_j _D_FLOATK _D_LONGK _D_FTODK _D_DTOFK 
-  _DADD_Common _DSUB_Common _DMUL_Common _DDIV_Common _DADD _DADD_RC _DSUB 
-  _DSUB_RC _DSUB_LC _DMUL _DMUL_RC _DDIV _DDIV_LC _DDIV_RC _DCMP _DCMP_RC _DINC 
-  _DDEC _DNEG _DABS _DSFLOAT _DUFLOAT _DSTRUNC _DUTRUNC _DSHORT _DLONG 
+  _Jump_Table_Offset _Jump_Table_Header_Addr _Jump_Table_Header_Offset 
+  _Search_Table_16_Addr _Search_Table_16_Offset _Search_Table_8_Addr 
+  _Search_Table_8_Offset _PUSH_CC _POP_CC _CONV_FAR_TO_NEAR _CONV_FAR_TO_LINEAR 
+  _CONV_LINEAR_TO_FAR F_CLRK F_CLRK_Unary F_NANK F_INFK F_TLK F_XGKL 
+  _UNPACK_k_to_K _UNPACK_k_to_K_Unary _UNPACK_j_to_L _PACK_K_to_k 
+  _PACK_K_to_k_Unary F_NORMK _FADD_K_is_K_plus_L _FMUL_K_is_K_times_L 
+  _FDIV_K_is_L_div_K _F_LONGK _F_FLOATK _FCMP_k_rel_j _FADD_Common _FSUB_Common 
+  _FMUL_Common _FDIV_Common _FADD _FADD_RC _FSUB _FSUB_RC _FSUB_LC _FMUL 
+  _FMUL_RC _FDIV _FDIV_RC _FDIV_LC _FSTRUNC _FUTRUNC _FNEG _FABS _FCMP _FCMP_RC 
+  _FINC _FDEC _FSFLOAT _FUFLOAT D_TLK D_TKRes D_XGKL D_CLRK D_CLRK_Unary D_NANK 
+  D_INFK D_INFK_Unary _DUNPACK_k_to_K _DUNPACK_k_to_K_Unary _DUNPACK_j_to_L 
+  _DPACK_K_to_k _DPACK_K_to_k_Unary D_NORMK_Unary D_NORMK _DADD_K_is_K_plus_L 
+  _DMUL_K_is_K_times_L _DDIV_K_is_L_div_K _DCMP_k_rel_j _D_FLOATK _D_LONGK 
+  _D_FTODK _D_DTOFK _DADD_Common _DSUB_Common _DMUL_Common _DDIV_Common _DADD 
+  _DADD_RC _DSUB _DSUB_RC _DSUB_LC _DMUL _DMUL_RC _DDIV _DDIV_LC _DDIV_RC _DCMP 
+  _DCMP_RC _DINC _DDEC _DNEG _DABS _DSFLOAT _DUFLOAT _DSTRUNC _DUTRUNC _DSHORT 
+  _DLONG 
 NOT USED VARIABLES
-Cpu_c.obj:
-  CCR_reg 
+AD1_c.obj:
+  Channels 
 rtshc08.c.o (ansifs.lib):
   _PowOfTwo_8 _PowOfTwo_16 _PowOfTwo_32 plus1 minus1 plus1d minus1d errno 
 
 *********************************************************************************************
 COPYDOWN SECTION
 ---------------------------------------------------------------------------------------------
-------- ROM-ADDRESS: 0x2206 ---- SIZE       2 ---
+------- ROM-ADDRESS: 0x2467 ---- SIZE       4 ---
+Filling bytes inserted
+ 000100A1
+------- ROM-ADDRESS: 0x246B ---- RAM-ADDRESS: 0xA1 ---- SIZE       1 ---
+Name of initialized Object : bytesEnviados:1
+ 03
+------- ROM-ADDRESS: 0x246C ---- SIZE       2 ---
 Filling bytes inserted
  0000
 
@@ -1106,15 +1213,38 @@ OBJECT-DEPENDENCIES SECTION
 Cpu_SWIInterrupt          USES Cpu_OnSwINT 
 _EntryPoint               USES _SOPT1 _SPMSC1 _SPMSC2 _SPMSC3 _ICSTRM _ICSSC 
                                 _ICSC1 _ICSC2 _Startup 
-PE_low_level_init         USES _SCGC1 _SCGC2 _PTASE _PTBSE _PTCSE _PTDSE 
-                                _PTESE _PTFSE _PTGSE _PTHSE _PTJSE _PTADS _PTBDS 
-                                _PTCDS _PTDDS _PTEDS _PTFDS _PTGDS _PTHDS _PTJDS 
+PE_low_level_init         USES _SCGC1 _SCGC2 _PTBDD _PTBD _APCTL1 _PTASE 
+                                _PTBSE _PTCSE _PTDSE _PTESE _PTFSE _PTGSE _PTHSE 
+                                _PTJSE _PTADS _PTBDS _PTCDS _PTDDS _PTEDS _PTFDS 
+                                _PTGDS _PTHDS _PTJDS AS1_Init AD1_Init TI1_Init 
                                 CCR_lock 
-main                      USES PE_low_level_init estado 
-                                _Jump_Table_Header_Addr main 
+TI1_OnInterrupt           USES estado 
+main                      USES PE_low_level_init estado AD1_Measure valorADC 
+                                AD1_GetValue error mensaje _ILSR bytesEnviados 
+                                AS1_SendBlock 
 Init                      USES _startupData loadByte 
 _Startup                  USES __SEG_END_SSTACK Init main 
-_vect                     USES Cpu_Interrupt Cpu_SWIInterrupt _EntryPoint 
+AD1_Interrupt             USES _ADCR AD1_OutV OutFlg AD1_OnEnd ModeFlg 
+AD1_HWEnDi                USES ModeFlg OutFlg _ADCSC1 
+AD1_Measure               USES ModeFlg AD1_HWEnDi 
+AD1_GetValue              USES OutFlg AD1_OutV 
+AD1_Init                  USES _ADCSC1 _ADCSC2 OutFlg ModeFlg _ADCCFG 
+AS1_SendBlock             USES OnFreeTxBuf_semaphore CCR_lock CCR_reg 
+                                AS1_OutLen OutIndxW OutBuffer _SCI1C2 
+AS1_InterruptRx           USES _SCI1S1 _SCI1D AS1_InpLen InpIndxW InpBuffer 
+                                SerFlag AS1_OnError AS1_OnRxChar AS1_OnFullRxBuf 
+AS1_InterruptTx           USES SerFlag AS1_OutLen _SCI1S1 OutIndxR OutBuffer 
+                                _SCI1D OnFreeTxBuf_semaphore _SCI1C2 AS1_OnTxChar 
+                                AS1_OnFreeTxBuf 
+AS1_InterruptError        USES _SCI1S1 _SCI1D SerFlag AS1_OnError 
+AS1_Init                  USES SerFlag OnFreeTxBuf_semaphore AS1_InpLen 
+                                InpIndxR InpIndxW AS1_OutLen OutIndxR OutIndxW _SCI1C1 
+                                _SCI1C3 _SCI1C2 _SCI1S2 _SCI1BD 
+TI1_Init                  USES _RTCSC _RTCMOD 
+TI1_Interrupt             USES _RTCSC TI1_OnInterrupt 
+_vect                     USES Cpu_Interrupt TI1_Interrupt AD1_Interrupt 
+                                AS1_InterruptTx AS1_InterruptRx AS1_InterruptError 
+                                Cpu_SWIInterrupt _EntryPoint 
 
 *********************************************************************************************
 DEPENDENCY TREE
@@ -1124,8 +1254,22 @@ DEPENDENCY TREE
  +- main                
  |  | 
  |  +- PE_low_level_init   
+ |  |  | 
+ |  |  +- AS1_Init            
+ |  |  |    
+ |  |  +- AD1_Init            
+ |  |  |    
+ |  |  +- TI1_Init            
+ |  |       
+ |  +- AD1_Measure         
+ |  |  | 
+ |  |  +- AD1_HWEnDi          
+ |  |       
+ |  +- AD1_GetValue        
  |  |    
- |  +- _Jump_Table_Header_Addr
+ |  +- _ILSR               
+ |  |    
+ |  +- AS1_SendBlock       
  |       
  +- _EntryPoint         
     | 
@@ -1141,6 +1285,32 @@ DEPENDENCY TREE
  | 
  +- Cpu_Interrupt       
  |    
+ +- TI1_Interrupt       
+ |  | 
+ |  +- TI1_OnInterrupt     
+ |       
+ +- AD1_Interrupt       
+ |  | 
+ |  +- AD1_OnEnd           
+ |       
+ +- AS1_InterruptTx     
+ |  | 
+ |  +- AS1_OnTxChar        
+ |  |    
+ |  +- AS1_OnFreeTxBuf     
+ |       
+ +- AS1_InterruptRx     
+ |  | 
+ |  +- AS1_OnError         
+ |  |    
+ |  +- AS1_OnRxChar        
+ |  |    
+ |  +- AS1_OnFullRxBuf     
+ |       
+ +- AS1_InterruptError  
+ |  | 
+ |  +- AS1_OnError          (see above)
+ |     
  +- Cpu_SWIInterrupt    
  |  | 
  |  +- Cpu_OnSwINT         
@@ -1153,6 +1323,6 @@ STATISTIC SECTION
 
 ExeFile:
 --------
-Number of blocks to be downloaded: 7
-Total size of all blocks to be downloaded: 458
+Number of blocks to be downloaded: 6
+Total size of all blocks to be downloaded: 1072
 

@@ -7,7 +7,10 @@
 -Add("$(ProjDirPath)/FLASH/Sources/Events_c.obj"
 "$(ProjDirPath)/FLASH/Sources/ProcessorExpert_c.obj"
 "$(ProjDirPath)/FLASH/Project_Settings/Startup_Code/start08_c.obj"
+"$(ProjDirPath)/FLASH/Generated_Code/AD1_c.obj"
+"$(ProjDirPath)/FLASH/Generated_Code/AS1_c.obj"
 "$(ProjDirPath)/FLASH/Generated_Code/Cpu_c.obj"
 "$(ProjDirPath)/FLASH/Generated_Code/IO_Map_c.obj"
+"$(ProjDirPath)/FLASH/Generated_Code/TI1_c.obj"
 "$(ProjDirPath)/FLASH/Generated_Code/Vectors_c.obj"
 "$(MCUToolsBaseDirEnv)/lib/hc08c/lib/ansifs.lib" )
