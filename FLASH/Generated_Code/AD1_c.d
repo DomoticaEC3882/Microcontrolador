@@ -10,5 +10,7 @@ Generated_Code/AD1_c.obj: \
 	D:/Proyecto/Microcontrolador/Generated_Code/AS1.h \
 	D:/Proyecto/Microcontrolador/Generated_Code/Cpu.h \
 	D:/Proyecto/Microcontrolador/Generated_Code/AD1.h \
-	D:/Proyecto/Microcontrolador/Generated_Code/TI1.h 
+	D:/Proyecto/Microcontrolador/Generated_Code/TI1.h \
+	D:/Proyecto/Microcontrolador/Generated_Code/Bit1.h \
+	D:/Proyecto/Microcontrolador/Generated_Code/Bit2.h 
 

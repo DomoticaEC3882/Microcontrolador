@@ -33,6 +33,8 @@
 #include "AS1.h"
 #include "AD1.h"
 #include "TI1.h"
+#include "Bit1.h"
+#include "Bit2.h"
 /* Include shared modules, which are used for whole project */
 #include "PE_Types.h"
 #include "PE_Error.h"
@@ -48,9 +50,12 @@ unsigned char estado = ESPERAR;
 
 //variables para el protocolo de comunicacion
 unsigned int valorADC;
+bool digitalUno;
+bool digitalDos;
 unsigned char error;
 unsigned int bytesEnviados = 3;
 unsigned char mensaje[3];
+
 
 
 void main(void)
@@ -69,13 +74,29 @@ void main(void)
 	  	  case MEDIR:
 	  		  AD1_Measure(TRUE);
 	  		  error = AD1_GetValue(&valorADC);
+	  		  digitalUno = Bit1_GetVal();
+	  		  digitalDos = Bit2_GetVal();
 	  		  estado = ENVIAR;
 	  		  break;
 	  	  case ENVIAR:
-	  		  mensaje[0] = 0xF1;
+	  		  /*FORMACION DE TRAMA*/
+	  		  mensaje[0] = 0xF0+NRO_CANALES;  //Byte que dice la cantidad de canales
 	  		  mensaje[1] = (valorADC>>7) & 0x1F;
 	  		  mensaje[2] = (valorADC) & 0x7F;
+	  		  
+	  		  //Trama para los sensores digitales
+	  		  if (digitalUno == FALSE){
+	  			  mensaje[1] = mensaje[1] | 0x40; 
+	  		  }else
+	  			  mensaje[1] = mensaje[1] & 0x3F;
+	  		  if (digitalDos == FALSE){
+	  			  mensaje[1] = mensaje[1] | 0x20; 
+	  		  }else
+	  			  mensaje[1] = mensaje[1] & 0x5F;
+	  		  
+	  		  //Envio de la trama
 	  		  error = AS1_SendBlock(mensaje,3,&bytesEnviados);
+	  		  /*WRAP TRAMA*/
 	  		  estado = ESPERAR;
 	  		  break;
 	  	  default:

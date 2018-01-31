@@ -9,6 +9,8 @@
 "$(ProjDirPath)/FLASH/Project_Settings/Startup_Code/start08_c.obj"
 "$(ProjDirPath)/FLASH/Generated_Code/AD1_c.obj"
 "$(ProjDirPath)/FLASH/Generated_Code/AS1_c.obj"
+"$(ProjDirPath)/FLASH/Generated_Code/Bit1_c.obj"
+"$(ProjDirPath)/FLASH/Generated_Code/Bit2_c.obj"
 "$(ProjDirPath)/FLASH/Generated_Code/Cpu_c.obj"
 "$(ProjDirPath)/FLASH/Generated_Code/IO_Map_c.obj"
 "$(ProjDirPath)/FLASH/Generated_Code/TI1_c.obj"

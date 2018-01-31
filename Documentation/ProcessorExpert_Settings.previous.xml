@@ -439,15 +439,15 @@ asm(BGND);
             <group name="PORT A">
               <Slew_rate_control_for_PTA0 v="no" />
               <Slew_rate_control_for_PTA1 v="no" />
-              <Slew_rate_control_for_PTA2 v="no" />
-              <Slew_rate_control_for_PTA3 v="no" />
+              <Slew_rate_control_for_PTA2 v="yes" />
+              <Slew_rate_control_for_PTA3 v="yes" />
               <Slew_rate_control_for_PTA4 v="no" />
               <Slew_rate_control_for_PTA6 v="no" />
               <Slew_rate_control_for_PTA7 v="no" />
               <Drive_strength_for_PTA0 v="High" />
               <Drive_strength_for_PTA1 v="High" />
-              <Drive_strength_for_PTA2 v="High" />
-              <Drive_strength_for_PTA3 v="High" />
+              <Drive_strength_for_PTA2 v="Low" />
+              <Drive_strength_for_PTA3 v="Low" />
               <Drive_strength_for_PTA4 v="High" />
               <Drive_strength_for_PTA6 v="High" />
               <Drive_strength_for_PTA7 v="High" />
@@ -1022,7 +1022,7 @@ asm(BGND);
         <Interrupt v="Vrtc" />
         <Interrupt_priority v="medium priority" />
       </boolgroup>
-      <Interrupt_period v="15.563965 ms" />
+      <Interrupt_period v="1.02 sec" />
       <Same_period_in_modes v="yes" />
       <Component_uses_entire_timer v="no" />
       <group name="Initialization">
@@ -1059,6 +1059,92 @@ asm(BGND);
         <Event_procedure_name v="TI1_OnInterrupt" />
         <Priority v="same as interrupt" />
       </event>
+    </Events>
+  </Bean>
+  <Bean name="Bit1" type="BitIO">
+    <Enabled v="Y" />
+    <Properties>
+      <Component_name v="Bit1" />
+      <Pin_for_I_O v="PTA2_KBI1P2_SDA1_ADP2" />
+      <Pin_signal v="" />
+      <Pull_resistor sel_value="no pull resistor">
+        
+pull down or no pull
+
+        <EmptySection_DummyValue />
+      </Pull_resistor>
+      <Open_drain sel_value="The settings is irrelevant for input direction">
+        
+push-pull
+
+        <EmptySection_DummyValue />
+      </Open_drain>
+      <Slew_rate_control_for_PTA2 v="yes" />
+      <Drive_strength_for_PTA2 v="Low" />
+      <Direction v="Input" />
+      <group name="Initialization">
+        <Init__direction v="Input" />
+        <Init__value v="0" />
+      </group>
+      <Safe_mode v="yes" />
+      <Optimization_for v="speed" />
+    </Properties>
+    <Methods>
+      <GetDir v="don&amp;apos;t generate code" />
+      <SetDir v="don&amp;apos;t generate code" />
+      <SetInput v="don&amp;apos;t generate code" />
+      <SetOutput v="don&amp;apos;t generate code" />
+      <GetVal v="generate code" />
+      <PutVal v="don&amp;apos;t generate code" />
+      <ClrVal v="don&amp;apos;t generate code" />
+      <SetVal v="don&amp;apos;t generate code" />
+      <NegVal v="don&amp;apos;t generate code" />
+    </Methods>
+    <Events>
+      <EmptySection_DummyValue />
+    </Events>
+  </Bean>
+  <Bean name="Bit2" type="BitIO">
+    <Enabled v="Y" />
+    <Properties>
+      <Component_name v="Bit2" />
+      <Pin_for_I_O v="PTA3_KBI1P3_SCL1_ADP3" />
+      <Pin_signal v="" />
+      <Pull_resistor sel_value="no pull resistor">
+        
+pull down or no pull
+
+        <EmptySection_DummyValue />
+      </Pull_resistor>
+      <Open_drain sel_value="The settings is irrelevant for input direction">
+        
+push-pull
+
+        <EmptySection_DummyValue />
+      </Open_drain>
+      <Slew_rate_control_for_PTA3 v="yes" />
+      <Drive_strength_for_PTA3 v="Low" />
+      <Direction v="Input" />
+      <group name="Initialization">
+        <Init__direction v="Input" />
+        <Init__value v="0" />
+      </group>
+      <Safe_mode v="yes" />
+      <Optimization_for v="speed" />
+    </Properties>
+    <Methods>
+      <GetDir v="don&amp;apos;t generate code" />
+      <SetDir v="don&amp;apos;t generate code" />
+      <SetInput v="don&amp;apos;t generate code" />
+      <SetOutput v="don&amp;apos;t generate code" />
+      <GetVal v="generate code" />
+      <PutVal v="don&amp;apos;t generate code" />
+      <ClrVal v="don&amp;apos;t generate code" />
+      <SetVal v="don&amp;apos;t generate code" />
+      <NegVal v="don&amp;apos;t generate code" />
+    </Methods>
+    <Events>
+      <EmptySection_DummyValue />
     </Events>
   </Bean>
 </PE_PROJECT_SETTINGS_DOCUMENTATION>

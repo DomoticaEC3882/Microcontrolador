@@ -7,7 +7,7 @@
 **     Version     : Component 01.003, Driver 01.40, CPU db: 3.00.067
 **     Datasheet   : MC9S08QE128RM Rev. 2 6/2007
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2018-01-29, 20:37, # CodeGen: 6
+**     Date/Time   : 2018-01-31, 14:47, # CodeGen: 21
 **     Abstract    :
 **         This component "MC9S08QE128_80" contains initialization 
 **         of the CPU and provides basic methods and events for 
@@ -44,6 +44,8 @@
 #include "AS1.h"
 #include "AD1.h"
 #include "TI1.h"
+#include "Bit1.h"
+#include "Bit2.h"
 #include "PE_Types.h"
 #include "PE_Error.h"
 #include "PE_Const.h"
@@ -195,8 +197,12 @@ void PE_low_level_init(void)
   setReg8Bits(PTBD, 0x02U);             
   /* APCTL1: ADPC0=1 */
   setReg8Bits(APCTL1, 0x01U);           
-  /* PTASE: PTASE7=0,PTASE6=0,PTASE4=0,PTASE3=0,PTASE2=0,PTASE1=0,PTASE0=0 */
-  clrReg8Bits(PTASE, 0xDFU);            
+  /* PTAPE: PTAPE3=1,PTAPE2=1 */
+  setReg8Bits(PTAPE, 0x0CU);            
+  /* PTADD: PTADD3=0,PTADD2=0 */
+  clrReg8Bits(PTADD, 0x0CU);            
+  /* PTASE: PTASE7=0,PTASE6=0,PTASE4=0,PTASE3=1,PTASE2=1,PTASE1=0,PTASE0=0 */
+  clrSetReg8Bits(PTASE, 0xD3U, 0x0CU);  
   /* PTBSE: PTBSE7=0,PTBSE6=0,PTBSE5=0,PTBSE4=0,PTBSE3=0,PTBSE2=0,PTBSE1=0,PTBSE0=0 */
   setReg8(PTBSE, 0x00U);                
   /* PTCSE: PTCSE7=0,PTCSE6=0,PTCSE5=0,PTCSE4=0,PTCSE3=0,PTCSE2=0,PTCSE1=0,PTCSE0=0 */
@@ -213,8 +219,8 @@ void PE_low_level_init(void)
   setReg8(PTHSE, 0x00U);                
   /* PTJSE: PTJSE7=0,PTJSE6=0,PTJSE5=0,PTJSE4=0,PTJSE3=0,PTJSE2=0,PTJSE1=0,PTJSE0=0 */
   setReg8(PTJSE, 0x00U);                
-  /* PTADS: PTADS7=1,PTADS6=1,PTADS5=0,PTADS4=1,PTADS3=1,PTADS2=1,PTADS1=1,PTADS0=1 */
-  setReg8(PTADS, 0xDFU);                
+  /* PTADS: PTADS7=1,PTADS6=1,PTADS5=0,PTADS4=1,PTADS3=0,PTADS2=0,PTADS1=1,PTADS0=1 */
+  setReg8(PTADS, 0xD3U);                
   /* PTBDS: PTBDS7=1,PTBDS6=1,PTBDS5=1,PTBDS4=1,PTBDS3=1,PTBDS2=1,PTBDS1=1,PTBDS0=1 */
   setReg8(PTBDS, 0xFFU);                
   /* PTCDS: PTCDS7=1,PTCDS6=1,PTCDS5=1,PTCDS4=1,PTCDS3=1,PTCDS2=1,PTCDS1=1,PTCDS0=1 */
@@ -238,6 +244,8 @@ void PE_low_level_init(void)
   AD1_Init();
   /* ### TimerInt "TI1" init code ... */
   TI1_Init();
+  /* ### BitIO "Bit1" init code ... */
+  /* ### BitIO "Bit2" init code ... */
   CCR_lock = (byte)0;
   __EI();                              /* Enable interrupts */
 }

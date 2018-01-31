@@ -37,6 +37,9 @@
 #include "AS1.h"
 #include "AD1.h"
 #include "TI1.h"
+#include "Bit1.h"
+#include "Bit2.h"
+
 
 
 void Cpu_OnSwINT(void);
