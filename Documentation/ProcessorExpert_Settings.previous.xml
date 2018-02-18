@@ -1022,7 +1022,7 @@ asm(BGND);
         <Interrupt v="Vrtc" />
         <Interrupt_priority v="medium priority" />
       </boolgroup>
-      <Interrupt_period v="1.02 sec" />
+      <Interrupt_period v="62.255859 ms" />
       <Same_period_in_modes v="yes" />
       <Component_uses_entire_timer v="no" />
       <group name="Initialization">
@@ -1067,12 +1067,7 @@ asm(BGND);
       <Component_name v="Bit1" />
       <Pin_for_I_O v="PTA2_KBI1P2_SDA1_ADP2" />
       <Pin_signal v="" />
-      <Pull_resistor sel_value="no pull resistor">
-        
-pull down or no pull
-
-        <EmptySection_DummyValue />
-      </Pull_resistor>
+      <Pull_resistor v="pull up" />
       <Open_drain sel_value="The settings is irrelevant for input direction">
         
 push-pull
@@ -1110,12 +1105,7 @@ push-pull
       <Component_name v="Bit2" />
       <Pin_for_I_O v="PTA3_KBI1P3_SCL1_ADP3" />
       <Pin_signal v="" />
-      <Pull_resistor sel_value="no pull resistor">
-        
-pull down or no pull
-
-        <EmptySection_DummyValue />
-      </Pull_resistor>
+      <Pull_resistor v="pull up" />
       <Open_drain sel_value="The settings is irrelevant for input direction">
         
 push-pull

@@ -73,7 +73,7 @@
     </GenFiles>
     <SignalListFile>Documentation\ProcessorExpert_SIGNALS.txt</SignalListFile>
     <DestinationCompiler>MetrowerksHCS08CC</DestinationCompiler>
-    <ProjectModificationStamp>20</ProjectModificationStamp>
+    <ProjectModificationStamp>30</ProjectModificationStamp>
   </Options>
   <CpuID_2>
     <Generated>false</Generated>
@@ -130,7 +130,7 @@
     <GenDriverVersion>01.40</GenDriverVersion>
     <GenEventModule>Events</GenEventModule>
     <HeaderAge>1279226985</HeaderAge>
-    <CodeAge>1279227373</CodeAge>
+    <CodeAge>1280209080</CodeAge>
     <AsemblAge>-1</AsemblAge>
     <GenNumMethods>20</GenNumMethods>
     <SetHighSpeed>false</SetHighSpeed>
@@ -182,8 +182,8 @@
     <GenComponentVersion>02.602</GenComponentVersion>
     <GenDriverVersion>01.33</GenDriverVersion>
     <GenEventModule>Events</GenEventModule>
-    <HeaderAge>1279109650</HeaderAge>
-    <CodeAge>1279109650</CodeAge>
+    <HeaderAge>1280424620</HeaderAge>
+    <CodeAge>1280424620</CodeAge>
     <AsemblAge>-1</AsemblAge>
     <GenNumMethods>30</GenNumMethods>
     <Enable>false</Enable>
@@ -440,8 +440,8 @@
     <GenComponentVersion>01.688</GenComponentVersion>
     <GenDriverVersion>01.30</GenDriverVersion>
     <GenEventModule>Events</GenEventModule>
-    <HeaderAge>1279109650</HeaderAge>
-    <CodeAge>1279109650</CodeAge>
+    <HeaderAge>1280209079</HeaderAge>
+    <CodeAge>1280209080</CodeAge>
     <AsemblAge>-1</AsemblAge>
     <GenNumMethods>19</GenNumMethods>
     <Enable>false</Enable>
@@ -583,8 +583,8 @@
     <GenComponentVersion>02.161</GenComponentVersion>
     <GenDriverVersion>01.23</GenDriverVersion>
     <GenEventModule>Events</GenEventModule>
-    <HeaderAge>1279109650</HeaderAge>
-    <CodeAge>1279109650</CodeAge>
+    <HeaderAge>1280443119</HeaderAge>
+    <CodeAge>1280443119</CodeAge>
     <AsemblAge>-1</AsemblAge>
     <GenNumMethods>14</GenNumMethods>
     <Enable>false</Enable>
@@ -619,36 +619,36 @@
       <MethodPos0>Enable</MethodPos0>
       <MethodType>method</MethodType>
       <ModuleType>Header</ModuleType>
-      <LineBeg>84</LineBeg>
-      <LineEnd>84</LineEnd>
+      <LineBeg>83</LineBeg>
+      <LineEnd>83</LineEnd>
     </MethodPos>
     <MethodPos>
       <MethodPos1>Interrupt</MethodPos1>
       <MethodType>internal_method</MethodType>
       <ModuleType>Header</ModuleType>
-      <LineBeg>85</LineBeg>
-      <LineEnd>96</LineEnd>
+      <LineBeg>84</LineBeg>
+      <LineEnd>95</LineEnd>
     </MethodPos>
     <MethodPos>
       <MethodPos2>Init</MethodPos2>
       <MethodType>internal_method</MethodType>
       <ModuleType>Header</ModuleType>
-      <LineBeg>97</LineBeg>
-      <LineEnd>109</LineEnd>
+      <LineBeg>96</LineBeg>
+      <LineEnd>108</LineEnd>
     </MethodPos>
     <MethodPos>
       <MethodPos3>Init</MethodPos3>
       <MethodType>internal_method</MethodType>
       <ModuleType>Code</ModuleType>
-      <LineBeg>87</LineBeg>
-      <LineEnd>107</LineEnd>
+      <LineBeg>86</LineBeg>
+      <LineEnd>106</LineEnd>
     </MethodPos>
     <MethodPos>
       <MethodPos4>Interrupt</MethodPos4>
       <MethodType>internal_method</MethodType>
       <ModuleType>Code</ModuleType>
-      <LineBeg>108</LineBeg>
-      <LineEnd>126</LineEnd>
+      <LineBeg>107</LineBeg>
+      <LineEnd>125</LineEnd>
     </MethodPos>
     <GenExtraFilesCount>0</GenExtraFilesCount>
   </ComponentID_14>
