@@ -10,6 +10,7 @@
 
 //Constantes
 #define NRO_CANALES 0x01
+
 //Constantes para la maquina de estados
 #define ESPERAR 0
 #define MEDIR 	1

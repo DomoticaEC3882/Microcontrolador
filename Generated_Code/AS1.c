@@ -6,7 +6,7 @@
 **     Component   : AsynchroSerial
 **     Version     : Component 02.602, Driver 01.33, CPU db: 3.00.067
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2018-02-17, 23:21, # CodeGen: 28
+**     Date/Time   : 2018-02-19, 15:45, # CodeGen: 57
 **     Abstract    :
 **         This component "AsynchroSerial" implements an asynchronous serial
 **         communication. The component supports different settings of
@@ -23,8 +23,8 @@
 **             Stop bits               : 1
 **             Parity                  : none
 **             Breaks                  : Disabled
-**             Input buffer size       : 8
-**             Output buffer size      : 8
+**             Input buffer size       : 16
+**             Output buffer size      : 16
 **
 **         Registers
 **             Input buffer            : SCI1D     [$0027]
