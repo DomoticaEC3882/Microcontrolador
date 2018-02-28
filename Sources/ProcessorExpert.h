@@ -9,8 +9,8 @@
 #define PROCESSOREXPERT_H_
 
 //Constantes
-#define NRO_CANALES 0x01
-#define NROCANALES 1
+#define NRO_CANALES 0x02
+#define NROCANALES 2
 
 //Constantes para la maquina de estados
 #define ESPERAR 0

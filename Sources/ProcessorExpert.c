@@ -35,6 +35,7 @@
 #include "TI1.h"
 #include "Bit1.h"
 #include "Bit2.h"
+#include "PWM1.h"
 /* Include shared modules, which are used for whole project */
 #include "PE_Types.h"
 #include "PE_Error.h"
@@ -53,9 +54,8 @@ unsigned int valorADC;
 bool digitalUno;
 bool digitalDos;
 unsigned char error;
-unsigned int bytesEnviados = 3;
-unsigned char mensaje[3];
-
+unsigned int bytesEnviados = 5;
+unsigned char mensaje[5];
 
 
 void main(void)
@@ -83,6 +83,8 @@ void main(void)
 	  		  mensaje[0] = 0xF0+NRO_CANALES;  //Byte que dice la cantidad de canales
 	  		  mensaje[1] = (valorADC>>7) & 0x1F;
 	  		  mensaje[2] = (valorADC) & 0x7F;
+	  		  mensaje[3] = (valorADC>>7) & 0x1F;
+	  		  mensaje[4] = (valorADC) & 0x7F;
 	  		  
 	  		  //Trama para los sensores digitales
 	  		  if (digitalUno == FALSE){
@@ -91,9 +93,9 @@ void main(void)
 	  			  mensaje[1] = mensaje[1] & 0x3F;
 	  		  if (digitalDos == FALSE){
 	  			  mensaje[1] = mensaje[1] | 0x20; 
-	  		  }else
+	  		  }else{
 	  			  mensaje[1] = mensaje[1] & 0x5F;
-	  		  
+	  		  }
 	  		  //Envio de la trama
 	  		  error = AS1_SendBlock(mensaje,1+2*NROCANALES,&bytesEnviados);
 	  		  /*WRAP TRAMA*/

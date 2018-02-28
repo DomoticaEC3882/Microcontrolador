@@ -13,6 +13,8 @@
 "$(ProjDirPath)/FLASH/Generated_Code/Bit2_c.obj"
 "$(ProjDirPath)/FLASH/Generated_Code/Cpu_c.obj"
 "$(ProjDirPath)/FLASH/Generated_Code/IO_Map_c.obj"
+"$(ProjDirPath)/FLASH/Generated_Code/PE_Timer_c.obj"
+"$(ProjDirPath)/FLASH/Generated_Code/PWM1_c.obj"
 "$(ProjDirPath)/FLASH/Generated_Code/TI1_c.obj"
 "$(ProjDirPath)/FLASH/Generated_Code/Vectors_c.obj"
 "$(ProjDirPath)/FLASH/.metadata/.plugins/org.eclipse.cdt.make.core/specs_c.obj"
