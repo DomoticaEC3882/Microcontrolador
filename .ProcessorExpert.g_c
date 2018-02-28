@@ -73,7 +73,7 @@
     </GenFiles>
     <SignalListFile>Documentation\ProcessorExpert_SIGNALS.txt</SignalListFile>
     <DestinationCompiler>MetrowerksHCS08CC</DestinationCompiler>
-    <ProjectModificationStamp>56</ProjectModificationStamp>
+    <ProjectModificationStamp>60</ProjectModificationStamp>
   </Options>
   <CpuID_2>
     <Generated>false</Generated>
@@ -130,7 +130,7 @@
     <GenDriverVersion>01.40</GenDriverVersion>
     <GenEventModule>Events</GenEventModule>
     <HeaderAge>1279226985</HeaderAge>
-    <CodeAge>1280538381</CodeAge>
+    <CodeAge>1280995074</CodeAge>
     <AsemblAge>-1</AsemblAge>
     <GenNumMethods>20</GenNumMethods>
     <SetHighSpeed>false</SetHighSpeed>
@@ -440,8 +440,8 @@
     <GenComponentVersion>01.688</GenComponentVersion>
     <GenDriverVersion>01.30</GenDriverVersion>
     <GenEventModule>Events</GenEventModule>
-    <HeaderAge>1280538381</HeaderAge>
-    <CodeAge>1280538381</CodeAge>
+    <HeaderAge>1280995074</HeaderAge>
+    <CodeAge>1280995074</CodeAge>
     <AsemblAge>-1</AsemblAge>
     <GenNumMethods>19</GenNumMethods>
     <Enable>false</Enable>
@@ -583,8 +583,8 @@
     <GenComponentVersion>02.161</GenComponentVersion>
     <GenDriverVersion>01.23</GenDriverVersion>
     <GenEventModule>Events</GenEventModule>
-    <HeaderAge>1280540131</HeaderAge>
-    <CodeAge>1280540131</CodeAge>
+    <HeaderAge>1280995433</HeaderAge>
+    <CodeAge>1280995433</CodeAge>
     <AsemblAge>-1</AsemblAge>
     <GenNumMethods>14</GenNumMethods>
     <Enable>false</Enable>

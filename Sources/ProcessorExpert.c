@@ -95,7 +95,7 @@ void main(void)
 	  			  mensaje[1] = mensaje[1] & 0x5F;
 	  		  
 	  		  //Envio de la trama
-	  		  error = AS1_SendBlock(mensaje,3,&bytesEnviados);
+	  		  error = AS1_SendBlock(mensaje,1+2*NROCANALES,&bytesEnviados);
 	  		  /*WRAP TRAMA*/
 	  		  estado = ESPERAR;
 	  		  break;

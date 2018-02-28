@@ -6,7 +6,7 @@
 **     Component   : ADC
 **     Version     : Component 01.688, Driver 01.30, CPU db: 3.00.067
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2018-02-19, 14:56, # CodeGen: 48
+**     Date/Time   : 2018-02-26, 13:55, # CodeGen: 61
 **     Abstract    :
 **         This device "ADC" implements an A/D converter,
 **         its control methods and interrupt/event handling procedure.
