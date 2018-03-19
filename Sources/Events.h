@@ -36,11 +36,11 @@
 #include "IO_Map.h"
 #include "PE_Timer.h"
 #include "AS1.h"
-#include "AD1.h"
+#include "ADC.h"
 #include "TI1.h"
-#include "Bit1.h"
-#include "Bit2.h"
+#include "Hall.h"
 #include "PWM1.h"
+#include "Cap1.h"
 
 
 
@@ -57,12 +57,12 @@ void Cpu_OnSwINT(void);
 ** ===================================================================
 */
 
-void AD1_OnEnd(void);
+void ADC_OnEnd(void);
 /*
 ** ===================================================================
-**     Event       :  AD1_OnEnd (module Events)
+**     Event       :  ADC_OnEnd (module Events)
 **
-**     Component   :  AD1 [ADC]
+**     Component   :  ADC [ADC]
 **     Description :
 **         This event is called after the measurement (which consists
 **         of <1 or more conversions>) is/are finished.

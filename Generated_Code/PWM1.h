@@ -6,7 +6,7 @@
 **     Component   : PWM
 **     Version     : Component 02.240, Driver 01.28, CPU db: 3.00.067
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2018-02-28, 15:01, # CodeGen: 73
+**     Date/Time   : 2018-03-14, 15:30, # CodeGen: 108
 **     Abstract    :
 **         This component implements a pulse-width modulation generator
 **         that generates signal with variable duty and fixed cycle. 
@@ -15,7 +15,7 @@
 **             ----------------------------------------------------
 **                Number (on package)  |    Name
 **             ----------------------------------------------------
-**                       33            |  PTC1_TPM3CH1
+**                       25            |  PTC2_TPM3CH2
 **             ----------------------------------------------------
 **
 **         Timer name                  : TPM3 [16-bit]
@@ -23,19 +23,19 @@
 **         Mode register               : TPM3SC    [$0060]
 **         Run register                : TPM3SC    [$0060]
 **         Prescaler                   : TPM3SC    [$0060]
-**         Compare register            : TPM3C1V   [$0069]
-**         Flip-flop register          : TPM3C1SC  [$0068]
+**         Compare register            : TPM3C2V   [$006C]
+**         Flip-flop register          : TPM3C2SC  [$006B]
 **
 **         User handling procedure     : not specified
 **
 **         Port name                   : PTC
-**         Bit number (in port)        : 1
-**         Bit mask of the port        : $0002
+**         Bit number (in port)        : 2
+**         Bit mask of the port        : $0004
 **         Port data register          : PTCD      [$0004]
 **         Port control register       : PTCDD     [$0005]
 **
 **         Initialization:
-**              Output level           : low
+**              Output level           : high
 **              Timer                  : Enabled
 **              Event                  : Enabled
 **         High speed mode
@@ -49,6 +49,7 @@
 **
 **     Contents    :
 **         Enable     - byte PWM1_Enable(void);
+**         Disable    - byte PWM1_Disable(void);
 **         SetRatio16 - byte PWM1_SetRatio16(word Ratio);
 **         SetDutyUS  - byte PWM1_SetDutyUS(word Time);
 **         SetDutyMS  - byte PWM1_SetDutyMS(word Time);
@@ -96,6 +97,23 @@ byte PWM1_Enable(void);
 **         This method enables the component - it starts the signal
 **         generation. Events may be generated (<DisableEvent>
 **         /<EnableEvent>).
+**     Parameters  : None
+**     Returns     :
+**         ---             - Error code, possible codes:
+**                           ERR_OK - OK
+**                           ERR_SPEED - This device does not work in
+**                           the active speed mode
+** ===================================================================
+*/
+
+byte PWM1_Disable(void);
+/*
+** ===================================================================
+**     Method      :  PWM1_Disable (component PWM)
+**     Description :
+**         This method disables the component - it stops the signal
+**         generation and events calling. When the timer is disabled,
+**         it is possible to call <ClrValue> and <SetValue> methods.
 **     Parameters  : None
 **     Returns     :
 **         ---             - Error code, possible codes:

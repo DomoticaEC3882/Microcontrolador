@@ -7,7 +7,7 @@
 **     Version     : Component 01.003, Driver 01.40, CPU db: 3.00.067
 **     Datasheet   : MC9S08QE128RM Rev. 2 6/2007
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2018-02-28, 15:36, # CodeGen: 74
+**     Date/Time   : 2018-03-14, 15:04, # CodeGen: 107
 **     Abstract    :
 **         This component "MC9S08QE128_80" contains initialization 
 **         of the CPU and provides basic methods and events for 
@@ -17,6 +17,7 @@
 **     Contents    :
 **         EnableInt  - void Cpu_EnableInt(void);
 **         DisableInt - void Cpu_DisableInt(void);
+**         Delay100US - void Cpu_Delay100US(word us100);
 **
 **     Copyright : 1997 - 2013 Freescale Semiconductor, Inc. All Rights Reserved.
 **     SOURCE DISTRIBUTION PERMISSIBLE as directed in End User License Agreement.
@@ -42,11 +43,11 @@
 #pragma MESSAGE DISABLE C4002 /* WARNING C4002: Result not used is ignored */
 
 #include "AS1.h"
-#include "AD1.h"
+#include "ADC.h"
 #include "TI1.h"
-#include "Bit1.h"
-#include "Bit2.h"
+#include "Hall.h"
 #include "PWM1.h"
+#include "Cap1.h"
 #include "PE_Types.h"
 #include "PE_Error.h"
 #include "PE_Const.h"
@@ -125,6 +126,65 @@ void Cpu_EnableInt(void)
 
 /*
 ** ===================================================================
+**     Method      :  Cpu_Delay100US (component MC9S08QE128_80)
+**     Description :
+**         This method realizes software delay. The length of delay
+**         is at least 100 microsecond multiply input parameter
+**         [us100]. As the delay implementation is not based on real
+**         clock, the delay time may be increased by interrupt
+**         service routines processed during the delay. The method
+**         is independent on selected speed mode.
+**     Parameters  :
+**         NAME            - DESCRIPTION
+**         us100           - Number of 100 us delay repetitions.
+**     Returns     : Nothing
+** ===================================================================
+*/
+#pragma NO_ENTRY
+#pragma NO_EXIT
+#pragma MESSAGE DISABLE C5703
+void Cpu_Delay100US(word us100)
+{
+  /* Total irremovable overhead: 16 cycles */
+  /* ldhx: 5 cycles overhead (load parameter into register) */
+  /* jsr:  5 cycles overhead (jump to subroutine) */
+  /* rts:  6 cycles overhead (return from subroutine) */
+
+  /* aproximate irremovable overhead for each 100us cycle (counted) : 8 cycles */
+  /* aix:  2 cycles overhead  */
+  /* cphx: 3 cycles overhead  */
+  /* bne:  3 cycles overhead  */
+  /*lint -save  -e950 -e522 Disable MISRA rule (1.1,14.2) checking. */
+  asm {
+loop:
+    /* 100 us delay block begin */
+    /*
+     * Delay
+     *   - requested                  : 100 us @ 16.777216MHz,
+     *   - possible                   : 1678 c, 100016.59 ns, delta 16.59 ns
+     *   - without removable overhead : 1670 c, 99539.76 ns
+     */
+    pshh                               /* (2 c: 119.21 ns) backup H */
+    pshx                               /* (2 c: 119.21 ns) backup X */
+    ldhx #$00CF                        /* (3 c: 178.81 ns) number of iterations */
+label0:
+    aix #-1                            /* (2 c: 119.21 ns) decrement H:X */
+    cphx #0                            /* (3 c: 178.81 ns) compare it to zero */
+    bne label0                         /* (3 c: 178.81 ns) repeat 207x */
+    pulx                               /* (3 c: 178.81 ns) restore X */
+    pulh                               /* (3 c: 178.81 ns) restore H */
+    nop                                /* (1 c: 59.6 ns) wait for 1 c */
+    /* 100 us delay block end */
+    aix #-1                            /* us100 parameter is passed via H:X registers */
+    cphx #0
+    bne loop                           /* next loop */
+    rts                                /* return from subroutine */
+  }
+  /*lint -restore Enable MISRA rule (1.1,14.2) checking. */
+}
+
+/*
+** ===================================================================
 **     Method      :  _EntryPoint (component MC9S08QE128_80)
 **
 **     Description :
@@ -145,6 +205,8 @@ void _EntryPoint(void)
   /* Common initialization of the write once registers */
   /* SOPT1: COPE=0,COPT=1,STOPE=0,??=0,??=0,RSTOPE=0,BKGDPE=1,RSTPE=0 */
   setReg8(SOPT1, 0x42U);                
+  /* SOPT2: COPCLKS=0,??=0,??=0,??=0,SPI1PS=0,ACIC2=0,IIC1PS=0,ACIC1=0 */
+  setReg8(SOPT2, 0x00U);                
   /* SPMSC1: LVDF=0,LVDACK=0,LVDIE=0,LVDRE=1,LVDSE=1,LVDE=1,??=0,BGBE=0 */
   setReg8(SPMSC1, 0x1CU);               
   /* SPMSC2: LPR=0,LPRS=0,LPWUI=0,??=0,PPDF=0,PPDACK=0,PPDE=1,PPDC=0 */
@@ -197,16 +259,18 @@ void PE_low_level_init(void)
   clrSetReg8Bits(PTBDD, 0x01U, 0x02U);  
   /* PTBD: PTBD1=1 */
   setReg8Bits(PTBD, 0x02U);             
-  /* APCTL1: ADPC0=1 */
-  setReg8Bits(APCTL1, 0x01U);           
-  /* PTAPE: PTAPE3=1,PTAPE2=1 */
-  setReg8Bits(PTAPE, 0x0CU);            
-  /* PTADD: PTADD3=0,PTADD2=0 */
-  clrReg8Bits(PTADD, 0x0CU);            
-  /* PTCDD: PTCDD1=1 */
-  setReg8Bits(PTCDD, 0x02U);            
-  /* PTCD: PTCD1=0 */
-  clrReg8Bits(PTCD, 0x02U);             
+  /* APCTL1: ADPC1=1,ADPC0=1 */
+  setReg8Bits(APCTL1, 0x03U);           
+  /* PTCPE: PTCPE0=1 */
+  setReg8Bits(PTCPE, 0x01U);            
+  /* PTCD: PTCD2=1 */
+  setReg8Bits(PTCD, 0x04U);             
+  /* PTCDD: PTCDD2=1,PTCDD0=0 */
+  clrSetReg8Bits(PTCDD, 0x01U, 0x04U);  
+  /* PTAPE: PTAPE6=0 */
+  clrReg8Bits(PTAPE, 0x40U);            
+  /* PTADD: PTADD6=0 */
+  clrReg8Bits(PTADD, 0x40U);            
   /* PTASE: PTASE7=0,PTASE6=0,PTASE4=0,PTASE3=1,PTASE2=1,PTASE1=0,PTASE0=0 */
   clrSetReg8Bits(PTASE, 0xD3U, 0x0CU);  
   /* PTBSE: PTBSE7=0,PTBSE6=0,PTBSE5=0,PTBSE4=0,PTBSE3=0,PTBSE2=0,PTBSE1=0,PTBSE0=0 */
@@ -246,14 +310,15 @@ void PE_low_level_init(void)
   /* ### Shared modules init code ... */
   /* ### Asynchro serial "AS1" init code ... */
   AS1_Init();
-  /* ###  "AD1" init code ... */
-  AD1_Init();
+  /* ###  "ADC" init code ... */
+  ADC_Init();
   /* ### TimerInt "TI1" init code ... */
   TI1_Init();
-  /* ### BitIO "Bit1" init code ... */
-  /* ### BitIO "Bit2" init code ... */
+  /* ### BitIO "Hall" init code ... */
   /* ### Programable pulse generation "PWM1" init code ... */
   PWM1_Init();
+  /* ### Timer capture encapsulation "Cap1" init code ... */
+  Cap1_Init();
   CCR_lock = (byte)0;
   __EI();                              /* Enable interrupts */
 }

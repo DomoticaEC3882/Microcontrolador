@@ -31,11 +31,11 @@
 #include "Cpu.h"
 #include "Events.h"
 #include "AS1.h"
-#include "AD1.h"
+#include "ADC.h"
 #include "TI1.h"
-#include "Bit1.h"
-#include "Bit2.h"
+#include "Hall.h"
 #include "PWM1.h"
+#include "Cap1.h"
 /* Include shared modules, which are used for whole project */
 #include "PE_Types.h"
 #include "PE_Error.h"
@@ -46,15 +46,21 @@
 #include "Events.h"
 #include "ProcessorExpert.h"
 
+/*Constantes*/
+#define ACELEROMETRO 0
+#define TEMPERATURA 1
+
 /*Inicializacion de la maquina de estados*/
 unsigned char estado = ESPERAR;
 
 //variables para el protocolo de comunicacion
-unsigned int valorADC;
+unsigned int acelerometro;
+unsigned int temperatura;
+unsigned int ultrasonido;
 bool digitalUno;
 bool digitalDos;
 unsigned char error;
-unsigned int bytesEnviados = 5;
+unsigned int bytesEnviados;
 unsigned char mensaje[5];
 
 
@@ -67,24 +73,34 @@ void main(void)
   /*** End of Processor Expert internal initialization.                    ***/
 
   /* Write your code here */
-  for(;;) { 
+
+  for(;;) {
 	  switch(estado){
 	  	  case ESPERAR:
 	  		  break;
 	  	  case MEDIR:
-	  		  AD1_Measure(TRUE);
-	  		  error = AD1_GetValue(&valorADC);
-	  		  digitalUno = Bit1_GetVal();
-	  		  digitalDos = Bit2_GetVal();
+	  		  error = ADC_MeasureChan(TRUE,ACELEROMETRO);
+	  		  error = ADC_GetChanValue(ACELEROMETRO,&acelerometro);
+	  		  error = ADC_MeasureChan(TRUE,TEMPERATURA);
+	  		  error = ADC_GetChanValue(TEMPERATURA,&temperatura);
+	  		  
+	  		  digitalUno = Hall_GetVal();
+	  		  
+	  		  //PWM1_Enable();
+	  		  //error = Cap1_Reset();
+	  		  //error = Cap1_GetCaptureValue(&ultrasonido);
+	  		  //PWM1_Disable();
+
+
 	  		  estado = ENVIAR;
 	  		  break;
 	  	  case ENVIAR:
 	  		  /*FORMACION DE TRAMA*/
 	  		  mensaje[0] = 0xF0+NRO_CANALES;  //Byte que dice la cantidad de canales
-	  		  mensaje[1] = (valorADC>>7) & 0x1F;
-	  		  mensaje[2] = (valorADC) & 0x7F;
-	  		  mensaje[3] = (valorADC>>7) & 0x1F;
-	  		  mensaje[4] = (valorADC) & 0x7F;
+	  		  mensaje[1] = (acelerometro>>7) & 0x1F;
+	  		  mensaje[2] = (acelerometro) & 0x7F;
+	  		  mensaje[3] = (temperatura>>7) & 0x1F;
+	  		  mensaje[4] = (temperatura) & 0x7F;
 	  		  
 	  		  //Trama para los sensores digitales
 	  		  if (digitalUno == FALSE){

@@ -6,7 +6,7 @@
 **     Component   : PWM
 **     Version     : Component 02.240, Driver 01.28, CPU db: 3.00.067
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2018-02-28, 15:01, # CodeGen: 73
+**     Date/Time   : 2018-03-14, 15:30, # CodeGen: 108
 **     Abstract    :
 **         This component implements a pulse-width modulation generator
 **         that generates signal with variable duty and fixed cycle. 
@@ -15,7 +15,7 @@
 **             ----------------------------------------------------
 **                Number (on package)  |    Name
 **             ----------------------------------------------------
-**                       33            |  PTC1_TPM3CH1
+**                       25            |  PTC2_TPM3CH2
 **             ----------------------------------------------------
 **
 **         Timer name                  : TPM3 [16-bit]
@@ -23,19 +23,19 @@
 **         Mode register               : TPM3SC    [$0060]
 **         Run register                : TPM3SC    [$0060]
 **         Prescaler                   : TPM3SC    [$0060]
-**         Compare register            : TPM3C1V   [$0069]
-**         Flip-flop register          : TPM3C1SC  [$0068]
+**         Compare register            : TPM3C2V   [$006C]
+**         Flip-flop register          : TPM3C2SC  [$006B]
 **
 **         User handling procedure     : not specified
 **
 **         Port name                   : PTC
-**         Bit number (in port)        : 1
-**         Bit mask of the port        : $0002
+**         Bit number (in port)        : 2
+**         Bit mask of the port        : $0004
 **         Port data register          : PTCD      [$0004]
 **         Port control register       : PTCDD     [$0005]
 **
 **         Initialization:
-**              Output level           : low
+**              Output level           : high
 **              Timer                  : Enabled
 **              Event                  : Enabled
 **         High speed mode
@@ -49,6 +49,7 @@
 **
 **     Contents    :
 **         Enable     - byte PWM1_Enable(void);
+**         Disable    - byte PWM1_Disable(void);
 **         SetRatio16 - byte PWM1_SetRatio16(word Ratio);
 **         SetDutyUS  - byte PWM1_SetDutyUS(word Time);
 **         SetDutyMS  - byte PWM1_SetDutyMS(word Time);
@@ -123,7 +124,7 @@ static void SetRatio(void);
 static void SetRatio(void)
 {
   if (ActualRatio.Value == 0xFFFFU) {  /* Duty = 100%? */
-    TPM3C1V = 0xFFFFU;                 /* Store new value to the compare reg. */
+    TPM3C2V = 0xFFFFU;                 /* Store new value to the compare reg. */
   } else {
     TRatioValue Tmp1, Tmp2;
     uint16_t Result;
@@ -142,7 +143,7 @@ static void SetRatio(void)
     if (Tmp1.BB.Hi >= 0x80U) {
       ++Result;                        /* round */
     }
-    TPM3C1V = Result;
+    TPM3C2V = Result;
   }
 }
 
@@ -165,6 +166,30 @@ byte PWM1_Enable(void)
 {
   /* TPM3SC: TOF=0,TOIE=0,CPWMS=0,CLKSB=0,CLKSA=1,PS2=1,PS1=0,PS0=0 */
   setReg8(TPM3SC, 0x0CU);              /* Run the counter (set CLKSB:CLKSA) */ 
+  return ERR_OK;                       /* OK */
+}
+
+/*
+** ===================================================================
+**     Method      :  PWM1_Disable (component PWM)
+**     Description :
+**         This method disables the component - it stops the signal
+**         generation and events calling. When the timer is disabled,
+**         it is possible to call <ClrValue> and <SetValue> methods.
+**     Parameters  : None
+**     Returns     :
+**         ---             - Error code, possible codes:
+**                           ERR_OK - OK
+**                           ERR_SPEED - This device does not work in
+**                           the active speed mode
+** ===================================================================
+*/
+byte PWM1_Disable(void)
+{
+  /* TPM3SC: TOF=0,TOIE=0,CPWMS=0,CLKSB=0,CLKSA=0,PS2=0,PS1=0,PS0=0 */
+  setReg8(TPM3SC, 0x00U);              /* Stop counter (CLKSB:CLKSA = 00) */ 
+  /* TPM3CNTH: BIT15=0,BIT14=0,BIT13=0,BIT12=0,BIT11=0,BIT10=0,BIT9=0,BIT8=0 */
+  setReg8(TPM3CNTH, 0x00U);            /* Reset HW Counter */ 
   return ERR_OK;                       /* OK */
 }
 
@@ -280,8 +305,8 @@ void PWM1_Init(void)
 {
   /* TPM3SC: TOF=0,TOIE=0,CPWMS=0,CLKSB=0,CLKSA=0,PS2=0,PS1=0,PS0=0 */
   setReg8(TPM3SC, 0x00U);              /* Disable device */ 
-  /* TPM3C1SC: CH1F=0,CH1IE=0,MS1B=1,MS1A=1,ELS1B=1,ELS1A=1,??=0,??=0 */
-  setReg8(TPM3C1SC, 0x3CU);            /* Set up PWM mode with output signal level low */ 
+  /* TPM3C2SC: CH2F=0,CH2IE=0,MS2B=1,MS2A=1,ELS2B=1,ELS2A=0,??=0,??=0 */
+  setReg8(TPM3C2SC, 0x38U);            /* Set up PWM mode with output signal level high */ 
   ActualRatio.Value = 0xFFF1U;         /* Store initial value of the ratio */
   /* TPM3MOD: BIT15=1,BIT14=0,BIT13=1,BIT12=0,BIT11=0,BIT10=0,BIT9=1,BIT8=1,BIT7=1,BIT6=1,BIT5=0,BIT4=1,BIT3=0,BIT2=1,BIT1=1,BIT0=0 */
   setReg16(TPM3MOD, 0xA3D6U);          /* Set modulo register */ 

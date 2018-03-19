@@ -93,5 +93,4 @@ Sources \
 Project_Settings/Startup_Code \
 Project_Settings/Linker_Files \
 Generated_Code \
-.metadata/.plugins/org.eclipse.cdt.make.core \
 

@@ -2,7 +2,7 @@
 # Automatically-generated file. Do not edit!
 ################################################################################
 
-#Progress monitor hint: 15
+#Progress monitor hint: 13
 first : all
 -include ../makefile.init
 
@@ -18,7 +18,6 @@ RM := "$(GNU_Make_Install_DirEnv)/rm" -f
 -include Project_Settings/Startup_Code/subdir.mk
 -include Project_Settings/Linker_Files/subdir.mk
 -include Generated_Code/subdir.mk
--include .metadata/.plugins/org.eclipse.cdt.make.core/subdir.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
@@ -92,14 +91,14 @@ endif
 # Tool invocations
 Microntrolador.abs: $(OBJS) $(USER_OBJS) ../Project_Settings/Linker_Files/ProcessorExpert.prm
 	@echo 'Building target: $@'
-	@echo 'Executing target #16 $@'
+	@echo 'Executing target #14 $@'
 	@echo 'Invoking: S08 Linker'
 	"$(HC08ToolsEnv)/linker" -ArgFile"Microntrolador.args" -O"Microntrolador.abs"
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 Microntrolador.abs.s19: $(BBL_SRCS) $(EXECUTABLES)
-	@echo 'Executing target #17 $@'
+	@echo 'Executing target #15 $@'
 	@echo 'Invoking: S08 Burner'
 	"$(HC08ToolsEnv)/burner" -ArgFile"Microntrolador.abs.args" -f="$<" -env"ABS_FILE=$(strip $(EXECUTABLES_OS_FORMAT))"
 	@echo 'Finished building: $@'
@@ -107,7 +106,7 @@ Microntrolador.abs.s19: $(BBL_SRCS) $(EXECUTABLES)
 
 # Other Targets
 clean:
-	-$(RM) $(S_DEPS_QUOTED) "./*/*/*/*.obj" "./*/*.obj" "./*/*/*.obj"  "./*/*/*/*.d"  $(CC_DEPS_QUOTED) $(S_UPPER_DEPS_QUOTED) $(CXX_DEPS_QUOTED) $(ASM_DEPS_QUOTED) $(BURNER_OUTPUT_OUTPUTS_QUOTED) $(ASM_UPPER_DEPS_QUOTED) $(C_UPPER_DEPS_QUOTED) $(C++_DEPS_QUOTED) $(EXECUTABLES_QUOTED) "./*/*/*/*.d" "./*/*.d" "./*/*/*.d"  $(ProjDirPath)/FLASH/Microntrolador.abs $(ProjDirPath)/FLASH/Microntrolador.abs.args $(ProjDirPath)/FLASH/Microntrolador.abs.s19 $(ProjDirPath)/FLASH/Microntrolador.args $(ProjDirPath)/FLASH/Microntrolador.map
+	-$(RM) $(S_DEPS_QUOTED) "./*/*.obj" "./*/*/*.obj"  $(CPP_DEPS_QUOTED) $(CC_DEPS_QUOTED) $(S_UPPER_DEPS_QUOTED) $(CXX_DEPS_QUOTED) $(ASM_DEPS_QUOTED) $(BURNER_OUTPUT_OUTPUTS_QUOTED) $(ASM_UPPER_DEPS_QUOTED) $(C_UPPER_DEPS_QUOTED) $(C++_DEPS_QUOTED) $(EXECUTABLES_QUOTED) "./*/*.d" "./*/*/*.d"  $(ProjDirPath)/FLASH/Microntrolador.abs $(ProjDirPath)/FLASH/Microntrolador.abs.args $(ProjDirPath)/FLASH/Microntrolador.abs.s19 $(ProjDirPath)/FLASH/Microntrolador.args $(ProjDirPath)/FLASH/Microntrolador.map
 	-@echo ' '
 
 .PHONY: all clean dependents explicit-dependencies warning-messages

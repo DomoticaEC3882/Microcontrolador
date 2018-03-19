@@ -51,9 +51,9 @@ void Cpu_OnSwINT(void)
 
 /*
 ** ===================================================================
-**     Event       :  AD1_OnEnd (module Events)
+**     Event       :  ADC_OnEnd (module Events)
 **
-**     Component   :  AD1 [ADC]
+**     Component   :  ADC [ADC]
 **     Description :
 **         This event is called after the measurement (which consists
 **         of <1 or more conversions>) is/are finished.
@@ -63,7 +63,7 @@ void Cpu_OnSwINT(void)
 **     Returns     : Nothing
 ** ===================================================================
 */
-void AD1_OnEnd(void)
+void ADC_OnEnd(void)
 {
   /* Write your code here ... */
 }
