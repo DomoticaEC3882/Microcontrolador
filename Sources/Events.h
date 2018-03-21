@@ -165,6 +165,24 @@ void TI1_OnInterrupt(void);
 ** ===================================================================
 */
 
+void PWM1_OnEnd(void);
+/*
+** ===================================================================
+**     Event       :  PWM1_OnEnd (module Events)
+**
+**     Component   :  PWM1 [PWM]
+**     Description :
+**         This event is called when the specified number of cycles has
+**         been generated. (Only when the component is enabled -
+**         <Enable> and the events are enabled - <EnableEvent>). The
+**         event is available only when the <Interrupt service/event>
+**         property is enabled and selected peripheral supports
+**         appropriate interrupt.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+
 /* END Events */
 #endif /* __Events_H*/
 

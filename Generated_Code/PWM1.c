@@ -6,7 +6,7 @@
 **     Component   : PWM
 **     Version     : Component 02.240, Driver 01.28, CPU db: 3.00.067
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2018-03-14, 15:30, # CodeGen: 108
+**     Date/Time   : 2018-03-19, 16:56, # CodeGen: 120
 **     Abstract    :
 **         This component implements a pulse-width modulation generator
 **         that generates signal with variable duty and fixed cycle. 
@@ -26,7 +26,11 @@
 **         Compare register            : TPM3C2V   [$006C]
 **         Flip-flop register          : TPM3C2SC  [$006B]
 **
-**         User handling procedure     : not specified
+**         Interrupt name              : Vtpm3ch2
+**         Interrupt enable reg.       : TPM3C2SC  [$006B]
+**         Priority                    : 
+**         User handling procedure     : PWM1_OnEnd
+**         This event is called when the 1 of cycles is generated
 **
 **         Port name                   : PTC
 **         Bit number (in port)        : 2
@@ -35,17 +39,17 @@
 **         Port control register       : PTCDD     [$0005]
 **
 **         Initialization:
-**              Output level           : high
+**              Output level           : low
 **              Timer                  : Enabled
 **              Event                  : Enabled
 **         High speed mode
-**             Prescaler               : divide-by-16
-**             Clock                   : 1048576 Hz
+**             Prescaler               : divide-by-64
+**             Clock                   : 262144 Hz
 **           Initial value of            period     pulse width
-**             Xtal ticks              : 1311       1310
-**             microseconds            : 40000      39990
-**             milliseconds            : 40         40
-**             seconds (real)          : 0.039999961853 0.03999042511
+**             Xtal ticks              : 8192       7537
+**             microseconds            : 250000     230000
+**             milliseconds            : 250        230
+**             seconds (real)          : 0.25       0.229999542236
 **
 **     Contents    :
 **         Enable     - byte PWM1_Enable(void);
@@ -75,12 +79,14 @@
 
 /* MODULE PWM1. */
 
+#include "Events.h"
 #include "PE_Error.h"
 #include "PWM1.h"
 
 #pragma MESSAGE DISABLE C5703          /* WARNING C5703: Parameter _ declared in function _ but not referenced */
 #pragma MESSAGE DISABLE C2705          /* WARNING C2705: Possible loss of data */
 #pragma MESSAGE DISABLE C5919          /* WARNING C5919: Conversion of floating to unsigned integral */
+#pragma MESSAGE DISABLE C4002          /* Disable warning C4002 "Result not used" */
 
 
 typedef union {
@@ -126,24 +132,7 @@ static void SetRatio(void)
   if (ActualRatio.Value == 0xFFFFU) {  /* Duty = 100%? */
     TPM3C2V = 0xFFFFU;                 /* Store new value to the compare reg. */
   } else {
-    TRatioValue Tmp1, Tmp2;
-    uint16_t Result;
-    Result = (uint16_t)((uint16_t)ActualRatio.BB.Hi * 0xA3U); /* HI * HI */
-    Tmp1.Value = (uint16_t)((uint16_t)ActualRatio.BB.Hi * 0xD7U); /* HI * LO */
-    Result += Tmp1.BB.Hi;
-    Tmp2.Value = (uint16_t)((uint16_t)ActualRatio.BB.Lo * 0xA3U); /* LO * HI */
-    Result += Tmp2.BB.Hi;
-    if ((Tmp2.BB.Lo += Tmp1.BB.Lo) < Tmp1.BB.Lo) {
-      ++Result;                        /* carry to result */
-    }
-    Tmp1.Value = (uint16_t)((uint16_t)ActualRatio.BB.Lo * 0xD7U); /* LO * LO */
-    if ((Tmp1.BB.Hi += Tmp2.BB.Lo) < Tmp2.BB.Lo) {
-      ++Result;                        /* carry to result */
-    }
-    if (Tmp1.BB.Hi >= 0x80U) {
-      ++Result;                        /* round */
-    }
-    TPM3C2V = Result;
+    TPM3C2V = (word)(ActualRatio.Value >> 0); /* Calculate new compare value according to the given ratio */
   }
 }
 
@@ -164,8 +153,8 @@ static void SetRatio(void)
 */
 byte PWM1_Enable(void)
 {
-  /* TPM3SC: TOF=0,TOIE=0,CPWMS=0,CLKSB=0,CLKSA=1,PS2=1,PS1=0,PS0=0 */
-  setReg8(TPM3SC, 0x0CU);              /* Run the counter (set CLKSB:CLKSA) */ 
+  /* TPM3SC: TOF=0,TOIE=1,CPWMS=0,CLKSB=0,CLKSA=1,PS2=1,PS1=1,PS0=0 */
+  setReg8(TPM3SC, 0x4EU);              /* Run the counter (set CLKSB:CLKSA) */ 
   return ERR_OK;                       /* OK */
 }
 
@@ -232,7 +221,7 @@ byte PWM1_SetRatio16(word Ratio)
 **     Parameters  :
 **         NAME            - DESCRIPTION
 **         Time            - Duty to set [in microseconds]
-**                      (0 to 40000 us in high speed mode)
+**                      (0 to 65535 us in high speed mode)
 **     Returns     :
 **         ---             - Error code, possible codes:
 **                           ERR_OK - OK
@@ -245,11 +234,8 @@ byte PWM1_SetRatio16(word Ratio)
 byte PWM1_SetDutyUS(word Time)
 {
   dlong rtval;                         /* Result of two 32-bit numbers multiplication */
-  if (Time > 0x9C40U) {                /* Is the given value out of range? */
-    return ERR_RANGE;                  /* If yes then error */
-  }
-  PE_Timer_LngMul((dword)Time, 0x01A36E49UL, &rtval); /* Multiply given value and High speed CPU mode coefficient */
-  if (PE_Timer_LngHi3(rtval[0], rtval[1], &ActualRatio.Value)) { /* Is the result greater or equal than 65536 ? */
+  PE_Timer_LngMul((dword)Time, 0x431BDE83UL, &rtval); /* Multiply given value and High speed CPU mode coefficient */
+  if (PE_Timer_LngHi4(rtval[0], rtval[1], &ActualRatio.Value)) { /* Is the result greater or equal than 65536 ? */
     ActualRatio.Value = 0xFFFFU;       /* If yes then use maximal possible value */
   }
   SetRatio();                          /* Calculate and set up new appropriate values of the compare and modulo registers */
@@ -266,7 +252,7 @@ byte PWM1_SetDutyUS(word Time)
 **     Parameters  :
 **         NAME            - DESCRIPTION
 **         Time            - Duty to set [in milliseconds]
-**                      (0 to 40 ms in high speed mode)
+**                      (0 to 250 ms in high speed mode)
 **     Returns     :
 **         ---             - Error code, possible codes:
 **                           ERR_OK - OK
@@ -279,10 +265,10 @@ byte PWM1_SetDutyUS(word Time)
 byte PWM1_SetDutyMS(word Time)
 {
   dlong rtval;                         /* Result of two 32-bit numbers multiplication */
-  if (Time > 0x28U) {                  /* Is the given value out of range? */
+  if (Time > 0xFAU) {                  /* Is the given value out of range? */
     return ERR_RANGE;                  /* If yes then error */
   }
-  PE_Timer_LngMul((dword)Time, 0x066666CDUL, &rtval); /* Multiply given value and High speed CPU mode coefficient */
+  PE_Timer_LngMul((dword)Time, 0x010624DDUL, &rtval); /* Multiply given value and High speed CPU mode coefficient */
   if (PE_Timer_LngHi2(rtval[0], rtval[1], &ActualRatio.Value)) { /* Is the result greater or equal than 65536 ? */
     ActualRatio.Value = 0xFFFFU;       /* If yes then use maximal possible value */
   }
@@ -305,15 +291,35 @@ void PWM1_Init(void)
 {
   /* TPM3SC: TOF=0,TOIE=0,CPWMS=0,CLKSB=0,CLKSA=0,PS2=0,PS1=0,PS0=0 */
   setReg8(TPM3SC, 0x00U);              /* Disable device */ 
-  /* TPM3C2SC: CH2F=0,CH2IE=0,MS2B=1,MS2A=1,ELS2B=1,ELS2A=0,??=0,??=0 */
-  setReg8(TPM3C2SC, 0x38U);            /* Set up PWM mode with output signal level high */ 
-  ActualRatio.Value = 0xFFF1U;         /* Store initial value of the ratio */
-  /* TPM3MOD: BIT15=1,BIT14=0,BIT13=1,BIT12=0,BIT11=0,BIT10=0,BIT9=1,BIT8=1,BIT7=1,BIT6=1,BIT5=0,BIT4=1,BIT3=0,BIT2=1,BIT1=1,BIT0=0 */
-  setReg16(TPM3MOD, 0xA3D6U);          /* Set modulo register */ 
+  /* TPM3C2SC: CH2F=0,CH2IE=0,MS2B=1,MS2A=1,ELS2B=1,ELS2A=1,??=0,??=0 */
+  setReg8(TPM3C2SC, 0x3CU);            /* Set up PWM mode with output signal level low */ 
+  ActualRatio.Value = 0xEB85U;         /* Store initial value of the ratio */
+  /* TPM3MOD: BIT15=1,BIT14=1,BIT13=1,BIT12=1,BIT11=1,BIT10=1,BIT9=1,BIT8=1,BIT7=1,BIT6=1,BIT5=1,BIT4=1,BIT3=1,BIT2=1,BIT1=1,BIT0=1 */
+  setReg16(TPM3MOD, 0xFFFFU);          /* Set modulo register */ 
   SetRatio();                          /* Calculate and set up new values of the compare according to the selected speed CPU mode */
-  /* TPM3SC: TOF=0,TOIE=0,CPWMS=0,CLKSB=0,CLKSA=1,PS2=1,PS1=0,PS0=0 */
-  setReg8(TPM3SC, 0x0CU);              /* Run the counter (set CLKSB:CLKSA) */ 
+  /* TPM3SC: TOF=0,TOIE=1,CPWMS=0,CLKSB=0,CLKSA=1,PS2=1,PS1=1,PS0=0 */
+  setReg8(TPM3SC, 0x4EU);              /* Run the counter (set CLKSB:CLKSA) */ 
 }
+
+
+/*
+** ===================================================================
+**     Method      :  PWM1_Interrupt (component PWM)
+**
+**     Description :
+**         The method services the interrupt of the selected peripheral(s)
+**         and eventually invokes event(s) of the component.
+**         This method is internal. It is used by Processor Expert only.
+** ===================================================================
+*/
+ISR(PWM1_Interrupt)
+{
+  (void)getReg8(TPM3SC);               /* Dummy read of the TPM3SC register to reset flag */
+  /* TPM3SC: TOF=0 */
+  clrReg8Bits(TPM3SC, 0x80U);          /*  Reset interrupt request flag */ 
+  PWM1_OnEnd();                        /* Invoke user event */
+}
+
 
 /* END PWM1. */
 

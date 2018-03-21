@@ -6,7 +6,7 @@
 **     Component   : Capture
 **     Version     : Component 02.223, Driver 01.30, CPU db: 3.00.067
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2018-03-14, 14:37, # CodeGen: 105
+**     Date/Time   : 2018-03-19, 16:35, # CodeGen: 118
 **     Abstract    :
 **         This component "Capture" simply implements the capture function
 **         of timer. The counter counts the same way as in free run mode. On
@@ -53,14 +53,12 @@
 **         Bit number (in port)        : 6
 **         Bit mask of the port        : $0040
 **
-**         Signal edge/level           : rising
+**         Signal edge/level           : falling
 **         Pull option                 : off
 **
 **     Contents    :
 **         Reset           - byte Cap1_Reset(void);
 **         GetCaptureValue - byte Cap1_GetCaptureValue(Cap1_TCapturedValue *Value);
-**         GetStatus       - bool Cap1_GetStatus(void);
-**         GetPinValue     - bool Cap1_GetPinValue(void);
 **
 **     Copyright : 1997 - 2013 Freescale Semiconductor, Inc. All Rights Reserved.
 **     SOURCE DISTRIBUTION PERMISSIBLE as directed in End User License Agreement.
@@ -136,51 +134,6 @@ byte Cap1_GetCaptureValue(Cap1_TCapturedValue *Value)
 
 /*
 ** ===================================================================
-**     Method      :  Cap1_GetStatus (component Capture)
-**     Description :
-**         The method returns status of input capture event and resets
-**         it if new capture event has occurred.
-**         This method is available only if the <Interrupt
-**         service/event> property is disabled.
-**     Parameters  : None
-**     Returns     :
-**         ---             - 
-**                           <true> - new capture event occurred, value
-**                           was captured
-**                           <false> - no capture event occurred
-** ===================================================================
-*/
-bool Cap1_GetStatus(void)
-{
-  if (getRegBit(TPM1C2SC, CH2F)) {     /* Does the new capture event occured? */
-    clrReg8Bit(TPM1C2SC, CH2F);        /* If yes then reset it */
-    return TRUE;
-  }
-  return FALSE;
-}
-
-/*
-** ===================================================================
-**     Method      :  Cap1_GetPinValue (component Capture)
-**     Description :
-**         The method reads the Capture pin value. The method is
-**         available only if it is possible to read the pin value
-**         (usually not available for internal signals).
-**     Parameters  : None
-**     Returns     :
-**         ---             - Capture pin value.
-**                           <true> - high level
-**                           <false> - low level.
-** ===================================================================
-*/
-/*
-bool Cap1_GetPinValue(void)
-
-**  This method is implemented as a macro. See Cap1.h file.  **
-*/
-
-/*
-** ===================================================================
 **     Method      :  Cap1_Init (component Capture)
 **
 **     Description :
@@ -202,8 +155,8 @@ void Cap1_Init(void)
   setReg16(TPM1C2V, 0x00U);            /* Clear capture register */ 
   /* TPM1SC: PS2=1,PS1=0,PS0=0 */
   clrSetReg8Bits(TPM1SC, 0x03U, 0x04U); /* Set prescaler register */ 
-  /* TPM1C2SC: CH2F=0,CH2IE=0,MS2B=0,MS2A=0,ELS2B=0,ELS2A=1,??=0,??=0 */
-  setReg8(TPM1C2SC, 0x04U);            /* Enable capture function */ 
+  /* TPM1C2SC: CH2F=0,CH2IE=0,MS2B=0,MS2A=0,ELS2B=1,ELS2A=0,??=0,??=0 */
+  setReg8(TPM1C2SC, 0x08U);            /* Enable capture function */ 
   /* TPM1SC: CLKSB=0,CLKSA=1 */
   clrSetReg8Bits(TPM1SC, 0x10U, 0x08U); /* Run counter */ 
 }

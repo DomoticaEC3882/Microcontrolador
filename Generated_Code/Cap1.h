@@ -6,7 +6,7 @@
 **     Component   : Capture
 **     Version     : Component 02.223, Driver 01.30, CPU db: 3.00.067
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2018-03-14, 14:37, # CodeGen: 105
+**     Date/Time   : 2018-03-19, 16:35, # CodeGen: 118
 **     Abstract    :
 **         This component "Capture" simply implements the capture function
 **         of timer. The counter counts the same way as in free run mode. On
@@ -53,14 +53,12 @@
 **         Bit number (in port)        : 6
 **         Bit mask of the port        : $0040
 **
-**         Signal edge/level           : rising
+**         Signal edge/level           : falling
 **         Pull option                 : off
 **
 **     Contents    :
 **         Reset           - byte Cap1_Reset(void);
 **         GetCaptureValue - byte Cap1_GetCaptureValue(Cap1_TCapturedValue *Value);
-**         GetStatus       - bool Cap1_GetStatus(void);
-**         GetPinValue     - bool Cap1_GetPinValue(void);
 **
 **     Copyright : 1997 - 2013 Freescale Semiconductor, Inc. All Rights Reserved.
 **     SOURCE DISTRIBUTION PERMISSIBLE as directed in End User License Agreement.
@@ -149,40 +147,6 @@
 **                           ERR_OK - OK
 **                           ERR_SPEED - This device does not work in
 **                           the active speed mode
-** ===================================================================
-*/
-
-bool Cap1_GetStatus(void);
-/*
-** ===================================================================
-**     Method      :  Cap1_GetStatus (component Capture)
-**     Description :
-**         The method returns status of input capture event and resets
-**         it if new capture event has occurred.
-**         This method is available only if the <Interrupt
-**         service/event> property is disabled.
-**     Parameters  : None
-**     Returns     :
-**         ---             - 
-**                           <true> - new capture event occurred, value
-**                           was captured
-**                           <false> - no capture event occurred
-** ===================================================================
-*/
-
-#define Cap1_GetPinValue() ((PTAD & 0x40U) ? TRUE : FALSE)
-/*
-** ===================================================================
-**     Method      :  Cap1_GetPinValue (component Capture)
-**     Description :
-**         The method reads the Capture pin value. The method is
-**         available only if it is possible to read the pin value
-**         (usually not available for internal signals).
-**     Parameters  : None
-**     Returns     :
-**         ---             - Capture pin value.
-**                           <true> - high level
-**                           <false> - low level.
 ** ===================================================================
 */
 

@@ -33,6 +33,11 @@
 
 /* User includes (#include below this line is not maintained by Processor Expert) */
 #include "ProcessorExpert.h"
+//variables y constantes para ultrasonido
+#define RANGO_US 8000 //valor por experimentacion
+extern unsigned int ultrasonido;
+extern unsigned char error;
+bool digitalDos;
 /*
 ** ===================================================================
 **     Event       :  Cpu_OnSwINT (module Events)
@@ -181,6 +186,34 @@ void TI1_OnInterrupt(void)
 		estado=MEDIR;
 	}
 }
+
+/*
+** ===================================================================
+**     Event       :  PWM1_OnEnd (module Events)
+**
+**     Component   :  PWM1 [PWM]
+**     Description :
+**         This event is called when the specified number of cycles has
+**         been generated. (Only when the component is enabled -
+**         <Enable> and the events are enabled - <EnableEvent>). The
+**         event is available only when the <Interrupt service/event>
+**         property is enabled and selected peripheral supports
+**         appropriate interrupt.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+void PWM1_OnEnd(void)
+{
+  /* Write your code here ... */
+	error = Cap1_GetCaptureValue(&ultrasonido);
+	if(ultrasonido<RANGO_US){
+		digitalDos=TRUE; //bandera que indica que el sensor detecto algun movimiento
+	}
+	else
+		digitalDos=FALSE;
+}
+
 
 /* END Events */
 

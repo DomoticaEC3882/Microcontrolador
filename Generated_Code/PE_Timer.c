@@ -6,7 +6,7 @@
 **     Component   : PE_Timer
 **     Version     : Driver 01.04
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2018-03-14, 14:24, # CodeGen: 100
+**     Date/Time   : 2018-03-19, 16:05, # CodeGen: 115
 **     Abstract    :
 **         This module "PE_Timer" implements internal methods and definitions
 **         used by components working with timers.
@@ -129,7 +129,7 @@ bool PE_Timer_LngHi2(dword High, dword Low, word *Out)
 
 /*
 ** ===================================================================
-**     Method      :  PE_Timer_LngHi3 (component PE_Timer)
+**     Method      :  PE_Timer_LngHi4 (component PE_Timer)
 **
 **     Description :
 **         The method transfers 64 bit result to 16 bit ratio value and 
@@ -137,20 +137,20 @@ bool PE_Timer_LngHi2(dword High, dword Low, word *Out)
 **         This method is internal. It is used by Processor Expert only.
 ** ===================================================================
 */
-bool PE_Timer_LngHi3(dword High, dword Low, word *Out)
+bool PE_Timer_LngHi4(dword High, dword Low, word *Out)
 {
-  if ((High >> 0x08UL) == 0x00UL) {
-    if ((Low & 0x800000UL) != 0x00UL) {
-      if (((Low >> 0x18UL) | (High << 8UL)) < 0xFFFFUL) {
-        *Out = (word)(((word)((Low >> 0x18UL) | (High << 8UL))) + 1U);
+  if ((High >> 0x10UL) == 0x00U) {
+    if ((Low & 0x80000000UL) != 0x00UL) {
+      if (High < 0xFFFFUL) {
+        *Out = (word)(((word)High) + 1U);
         return FALSE;
       }
     } else {
-      *Out = (word)((Low >> 0x18UL) | (High << 8UL));
+      *Out = (word)High;
       return FALSE;
     }
   }
-  *Out = (word)((Low >> 0x18UL) | (High << 8UL));
+  *Out = (word)High;
   return TRUE;
 }
 

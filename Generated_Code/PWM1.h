@@ -6,7 +6,7 @@
 **     Component   : PWM
 **     Version     : Component 02.240, Driver 01.28, CPU db: 3.00.067
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2018-03-14, 15:30, # CodeGen: 108
+**     Date/Time   : 2018-03-19, 16:56, # CodeGen: 120
 **     Abstract    :
 **         This component implements a pulse-width modulation generator
 **         that generates signal with variable duty and fixed cycle. 
@@ -26,7 +26,11 @@
 **         Compare register            : TPM3C2V   [$006C]
 **         Flip-flop register          : TPM3C2SC  [$006B]
 **
-**         User handling procedure     : not specified
+**         Interrupt name              : Vtpm3ch2
+**         Interrupt enable reg.       : TPM3C2SC  [$006B]
+**         Priority                    : 
+**         User handling procedure     : PWM1_OnEnd
+**         This event is called when the 1 of cycles is generated
 **
 **         Port name                   : PTC
 **         Bit number (in port)        : 2
@@ -35,17 +39,17 @@
 **         Port control register       : PTCDD     [$0005]
 **
 **         Initialization:
-**              Output level           : high
+**              Output level           : low
 **              Timer                  : Enabled
 **              Event                  : Enabled
 **         High speed mode
-**             Prescaler               : divide-by-16
-**             Clock                   : 1048576 Hz
+**             Prescaler               : divide-by-64
+**             Clock                   : 262144 Hz
 **           Initial value of            period     pulse width
-**             Xtal ticks              : 1311       1310
-**             microseconds            : 40000      39990
-**             milliseconds            : 40         40
-**             seconds (real)          : 0.039999961853 0.03999042511
+**             Xtal ticks              : 8192       7537
+**             microseconds            : 250000     230000
+**             milliseconds            : 250        230
+**             seconds (real)          : 0.25       0.229999542236
 **
 **     Contents    :
 **         Enable     - byte PWM1_Enable(void);
@@ -85,8 +89,8 @@
 #include "PE_Timer.h"
 #include "Cpu.h"
 
-#define PWM1_PERIOD_VALUE              0xA3D6U /* Initial period value in ticks of the timer in high speed mode */
-#define PWM1_PERIOD_VALUE_HIGH         0xA3D6U /* Period value in ticks of the timer in high speed mode */
+#define PWM1_PERIOD_VALUE              0xFFFFU /* Initial period value in ticks of the timer in high speed mode */
+#define PWM1_PERIOD_VALUE_HIGH         0xFFFFU /* Period value in ticks of the timer in high speed mode */
 
 
 byte PWM1_Enable(void);
@@ -158,7 +162,7 @@ byte PWM1_SetDutyUS(word Time);
 **     Parameters  :
 **         NAME            - DESCRIPTION
 **         Time            - Duty to set [in microseconds]
-**                      (0 to 40000 us in high speed mode)
+**                      (0 to 65535 us in high speed mode)
 **     Returns     :
 **         ---             - Error code, possible codes:
 **                           ERR_OK - OK
@@ -180,7 +184,7 @@ byte PWM1_SetDutyMS(word Time);
 **     Parameters  :
 **         NAME            - DESCRIPTION
 **         Time            - Duty to set [in milliseconds]
-**                      (0 to 40 ms in high speed mode)
+**                      (0 to 250 ms in high speed mode)
 **     Returns     :
 **         ---             - Error code, possible codes:
 **                           ERR_OK - OK
@@ -204,6 +208,17 @@ void PWM1_Init(void);
 ** ===================================================================
 */
 
+__interrupt void PWM1_Interrupt(void);
+/*
+** ===================================================================
+**     Method      :  PWM1_Interrupt (component PWM)
+**
+**     Description :
+**         The method services the interrupt of the selected peripheral(s)
+**         and eventually invokes event(s) of the component.
+**         This method is internal. It is used by Processor Expert only.
+** ===================================================================
+*/
 
 /* END PWM1. */
 

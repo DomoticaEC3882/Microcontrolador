@@ -58,10 +58,12 @@ unsigned int acelerometro;
 unsigned int temperatura;
 unsigned int ultrasonido;
 bool digitalUno;
-bool digitalDos;
+extern bool digitalDos;
 unsigned char error;
 unsigned int bytesEnviados;
 unsigned char mensaje[5];
+
+
 
 
 void main(void)
@@ -85,13 +87,7 @@ void main(void)
 	  		  error = ADC_GetChanValue(TEMPERATURA,&temperatura);
 	  		  
 	  		  digitalUno = Hall_GetVal();
-	  		  
-	  		  //PWM1_Enable();
-	  		  //error = Cap1_Reset();
-	  		  //error = Cap1_GetCaptureValue(&ultrasonido);
-	  		  //PWM1_Disable();
-
-
+	  				 
 	  		  estado = ENVIAR;
 	  		  break;
 	  	  case ENVIAR:
@@ -104,13 +100,14 @@ void main(void)
 	  		  
 	  		  //Trama para los sensores digitales
 	  		  if (digitalUno == FALSE){
-	  			  mensaje[1] = mensaje[1] | 0x40; 
-	  		  }else
 	  			  mensaje[1] = mensaje[1] & 0x3F;
+	  		  }else
+	  		  	  mensaje[1] = mensaje[1] | 0x40; 
 	  		  if (digitalDos == FALSE){
-	  			  mensaje[1] = mensaje[1] | 0x20; 
-	  		  }else{
 	  			  mensaje[1] = mensaje[1] & 0x5F;
+	  		  }else{
+	  			  mensaje[1] = mensaje[1] | 0x20;
+	  			 
 	  		  }
 	  		  //Envio de la trama
 	  		  error = AS1_SendBlock(mensaje,1+2*NROCANALES,&bytesEnviados);

@@ -5,7 +5,7 @@
 **     Processor   : MC9S08QE128CLK
 **     Version     : Component 01.003, Driver 01.40, CPU db: 3.00.067
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2018-03-14, 14:37, # CodeGen: 105
+**     Date/Time   : 2018-03-19, 16:23, # CodeGen: 117
 **     Abstract    :
 **         This component "MC9S08QE128_80" contains initialization 
 **         of the CPU and provides basic methods and events for 
@@ -44,7 +44,7 @@
 /*lint -save  -e950 Disable MISRA rule (1.1) checking. */
 static void (* near const _vect[])(void) @0xFFC0 = { /* Interrupt vector table */
 /*lint -restore Enable MISRA rule (1.1) checking. */
-         Cpu_Interrupt,                /* Int.no. 31 Vtpm3ovf (at FFC0)              Unassigned */
+         PWM1_Interrupt,               /* Int.no. 31 Vtpm3ovf (at FFC0)              Used */
          Cpu_Interrupt,                /* Int.no. 30 Vtpm3ch5 (at FFC2)              Unassigned */
          Cpu_Interrupt,                /* Int.no. 29 Vtpm3ch4 (at FFC4)              Unassigned */
          Cpu_Interrupt,                /* Int.no. 28 Vtpm3ch3 (at FFC6)              Unassigned */
