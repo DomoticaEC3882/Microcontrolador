@@ -7,7 +7,7 @@
 **     Version     : Component 01.003, Driver 01.40, CPU db: 3.00.067
 **     Datasheet   : MC9S08QE128RM Rev. 2 6/2007
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2018-03-19, 16:23, # CodeGen: 117
+**     Date/Time   : 2018-03-23, 15:04, # CodeGen: 123
 **     Abstract    :
 **         This component "MC9S08QE128_80" contains initialization 
 **         of the CPU and provides basic methods and events for 
@@ -48,6 +48,7 @@
 #include "Hall.h"
 #include "PWM1.h"
 #include "Cap1.h"
+#include "Bit1.h"
 #include "PE_Types.h"
 #include "PE_Error.h"
 #include "PE_Const.h"
@@ -271,6 +272,12 @@ void PE_low_level_init(void)
   clrReg8Bits(PTAPE, 0x40U);            
   /* PTADD: PTADD6=0 */
   clrReg8Bits(PTADD, 0x40U);            
+  /* PTED: PTED7=0 */
+  clrReg8Bits(PTED, 0x80U);             
+  /* PTEPE: PTEPE7=0 */
+  clrReg8Bits(PTEPE, 0x80U);            
+  /* PTEDD: PTEDD7=1 */
+  setReg8Bits(PTEDD, 0x80U);            
   /* PTASE: PTASE7=0,PTASE6=0,PTASE4=0,PTASE3=1,PTASE2=1,PTASE1=0,PTASE0=0 */
   clrSetReg8Bits(PTASE, 0xD3U, 0x0CU);  
   /* PTBSE: PTBSE7=0,PTBSE6=0,PTBSE5=0,PTBSE4=0,PTBSE3=0,PTBSE2=0,PTBSE1=0,PTBSE0=0 */
@@ -319,6 +326,7 @@ void PE_low_level_init(void)
   PWM1_Init();
   /* ### Timer capture encapsulation "Cap1" init code ... */
   Cap1_Init();
+  /* ### BitIO "Bit1" init code ... */
   CCR_lock = (byte)0;
   __EI();                              /* Enable interrupts */
 }

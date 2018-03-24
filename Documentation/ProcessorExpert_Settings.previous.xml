@@ -1119,8 +1119,8 @@ push-pull
         <Interrupt_priority v="medium priority" />
         <Iterations_before_action_event v="1" />
       </boolgroup>
-      <Period v="100 ms" />
-      <Starting_pulse_width v="90 ms" />
+      <Period v="250 ms" />
+      <Starting_pulse_width v="230 ms" />
       <Aligned v="Edge" />
       <Initial_polarity v="low" />
       <Same_period_in_modes v="no" />

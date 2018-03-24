@@ -36,6 +36,7 @@
 #include "Hall.h"
 #include "PWM1.h"
 #include "Cap1.h"
+#include "Bit1.h"
 /* Include shared modules, which are used for whole project */
 #include "PE_Types.h"
 #include "PE_Error.h"
@@ -60,11 +61,10 @@ unsigned int ultrasonido;
 bool digitalUno;
 extern bool digitalDos;
 unsigned char error;
+unsigned char recibe;
 unsigned int bytesEnviados;
 unsigned char mensaje[5];
-
-
-
+unsigned char recibe;
 
 void main(void)
 {
@@ -112,6 +112,12 @@ void main(void)
 	  		  //Envio de la trama
 	  		  error = AS1_SendBlock(mensaje,1+2*NROCANALES,&bytesEnviados);
 	  		  /*WRAP TRAMA*/
+	  		  estado = ESPERAR;
+	  		  break;
+	  	  case RECIBIR:
+	  		  error = AS1_RecvChar(&recibe);
+	  		  recibe = recibe - 48;
+	  		  Bit1_PutVal(recibe);
 	  		  estado = ESPERAR;
 	  		  break;
 	  	  default:

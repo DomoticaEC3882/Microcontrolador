@@ -14,5 +14,6 @@ Generated_Code/AS1_c.obj: \
 	D:/Proyecto/Microcontrolador/Generated_Code/TI1.h \
 	D:/Proyecto/Microcontrolador/Generated_Code/Hall.h \
 	D:/Proyecto/Microcontrolador/Generated_Code/PWM1.h \
-	D:/Proyecto/Microcontrolador/Generated_Code/Cap1.h 
+	D:/Proyecto/Microcontrolador/Generated_Code/Cap1.h \
+	D:/Proyecto/Microcontrolador/Generated_Code/Bit1.h 
 

@@ -112,6 +112,7 @@ void  AS1_OnError(void)
 void  AS1_OnRxChar(void)
 {
   /* Write your code here ... */
+	estado=RECIBIR;
 }
 
 /*
@@ -146,6 +147,7 @@ void  AS1_OnTxChar(void)
 void  AS1_OnFullRxBuf(void)
 {
   /* Write your code here ... */
+	
 }
 
 /*
@@ -207,6 +209,8 @@ void PWM1_OnEnd(void)
 {
   /* Write your code here ... */
 	error = Cap1_GetCaptureValue(&ultrasonido);
+	
+	
 	if(ultrasonido<RANGO_US){
 		digitalDos=TRUE; //bandera que indica que el sensor detecto algun movimiento
 	}
