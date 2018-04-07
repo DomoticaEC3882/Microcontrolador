@@ -37,7 +37,7 @@
         <Line>Project_Settings\Linker_Files\ProcessorExpert.prm</Line>
         <Line>Generated_Code\Vectors.c</Line>
       </GenExtraFiles>
-      <XtraAge1>1282898077</XtraAge1>
+      <XtraAge1>1283871984</XtraAge1>
       <GenExtraFileType1>4</GenExtraFileType1>
       <GenLinkedFiles lines_count="0" />
       <GenEventModules lines_count="1">
@@ -54,14 +54,14 @@
         <Line>AS1_OnFreeTxBuf</Line>
         <Line>Cpu_OnSwINT</Line>
       </GenMethodsInEvents>
-      <GenAllModules lines_count="14">
+      <GenAllModules lines_count="15">
         <Line>ADC</Line>
         <Line>AS1</Line>
-        <Line>Bit1</Line>
         <Line>Cap1</Line>
         <Line>Cpu</Line>
         <Line>Events</Line>
         <Line>Hall</Line>
+        <Line>Iluminacion</Line>
         <Line>IO_Map</Line>
         <Line>PE_Const</Line>
         <Line>PE_Error</Line>
@@ -69,21 +69,23 @@
         <Line>PE_Types</Line>
         <Line>PWM1</Line>
         <Line>TI1</Line>
+        <Line>Ventilacion</Line>
       </GenAllModules>
       <GenExternModules lines_count="0" />
-      <GenBeanModules lines_count="7">
+      <GenBeanModules lines_count="8">
         <Line>AS1</Line>
         <Line>ADC</Line>
         <Line>TI1</Line>
         <Line>Hall</Line>
         <Line>PWM1</Line>
         <Line>Cap1</Line>
-        <Line>Bit1</Line>
+        <Line>Iluminacion</Line>
+        <Line>Ventilacion</Line>
       </GenBeanModules>
     </GenFiles>
     <SignalListFile>Documentation\ProcessorExpert_SIGNALS.txt</SignalListFile>
     <DestinationCompiler>MetrowerksHCS08CC</DestinationCompiler>
-    <ProjectModificationStamp>115</ProjectModificationStamp>
+    <ProjectModificationStamp>118</ProjectModificationStamp>
   </Options>
   <CpuID_2>
     <Generated>false</Generated>
@@ -139,8 +141,8 @@
     <GenComponentVersion>01.003</GenComponentVersion>
     <GenDriverVersion>01.40</GenDriverVersion>
     <GenEventModule>Events</GenEventModule>
-    <HeaderAge>1282768409</HeaderAge>
-    <CodeAge>1282898076</CodeAge>
+    <HeaderAge>1283872124</HeaderAge>
+    <CodeAge>1283872124</CodeAge>
     <AsemblAge>-1</AsemblAge>
     <GenNumMethods>20</GenNumMethods>
     <SetHighSpeed>false</SetHighSpeed>
@@ -976,14 +978,14 @@
     </MethodPos>
     <GenExtraFilesCount>0</GenExtraFilesCount>
   </ComponentID_70>
-  <ComponentID_74>
+  <ComponentID_78>
     <Generated>true</Generated>
-    <GenCompName>Bit1</GenCompName>
+    <GenCompName>Iluminacion</GenCompName>
     <GenComponentVersion>02.086</GenComponentVersion>
     <GenDriverVersion>03.27</GenDriverVersion>
     <GenEventModule />
-    <HeaderAge>1282898076</HeaderAge>
-    <CodeAge>1282898076</CodeAge>
+    <HeaderAge>1283872124</HeaderAge>
+    <CodeAge>1283872124</CodeAge>
     <AsemblAge>-1</AsemblAge>
     <GenNumMethods>9</GenNumMethods>
     <GetDir>false</GetDir>
@@ -1057,7 +1059,89 @@
       <LineEnd>149</LineEnd>
     </MethodPos>
     <GenExtraFilesCount>0</GenExtraFilesCount>
-  </ComponentID_74>
+  </ComponentID_78>
+  <ComponentID_79>
+    <Generated>true</Generated>
+    <GenCompName>Ventilacion</GenCompName>
+    <GenComponentVersion>02.086</GenComponentVersion>
+    <GenDriverVersion>03.27</GenDriverVersion>
+    <GenEventModule />
+    <HeaderAge>1283872124</HeaderAge>
+    <CodeAge>1283872124</CodeAge>
+    <AsemblAge>-1</AsemblAge>
+    <GenNumMethods>9</GenNumMethods>
+    <GetDir>false</GetDir>
+    <SetDir>false</SetDir>
+    <SetInput>false</SetInput>
+    <SetOutput>false</SetOutput>
+    <GetVal>true</GetVal>
+    <PutVal>true</PutVal>
+    <ClrVal>true</ClrVal>
+    <SetVal>true</SetVal>
+    <NegVal>false</NegVal>
+    <GenNumEvents>0</GenNumEvents>
+    <GenSmartUserChangesDetected_Header>false</GenSmartUserChangesDetected_Header>
+    <GenSmartUserChangesDetected_Code>false</GenSmartUserChangesDetected_Code>
+    <GenSmartUserChangesDetected_Asembl>false</GenSmartUserChangesDetected_Asembl>
+    <GenMethodPos>8</GenMethodPos>
+    <MethodPos>
+      <MethodPos0>GetVal</MethodPos0>
+      <MethodType>method</MethodType>
+      <ModuleType>Header</ModuleType>
+      <LineBeg>77</LineBeg>
+      <LineEnd>97</LineEnd>
+    </MethodPos>
+    <MethodPos>
+      <MethodPos1>PutVal</MethodPos1>
+      <MethodType>method</MethodType>
+      <ModuleType>Header</ModuleType>
+      <LineBeg>98</LineBeg>
+      <LineEnd>112</LineEnd>
+    </MethodPos>
+    <MethodPos>
+      <MethodPos2>ClrVal</MethodPos2>
+      <MethodType>method</MethodType>
+      <ModuleType>Header</ModuleType>
+      <LineBeg>113</LineBeg>
+      <LineEnd>125</LineEnd>
+    </MethodPos>
+    <MethodPos>
+      <MethodPos3>SetVal</MethodPos3>
+      <MethodType>method</MethodType>
+      <ModuleType>Header</ModuleType>
+      <LineBeg>126</LineBeg>
+      <LineEnd>138</LineEnd>
+    </MethodPos>
+    <MethodPos>
+      <MethodPos4>GetVal</MethodPos4>
+      <MethodType>method</MethodType>
+      <ModuleType>Code</ModuleType>
+      <LineBeg>75</LineBeg>
+      <LineEnd>97</LineEnd>
+    </MethodPos>
+    <MethodPos>
+      <MethodPos5>PutVal</MethodPos5>
+      <MethodType>method</MethodType>
+      <ModuleType>Code</ModuleType>
+      <LineBeg>98</LineBeg>
+      <LineEnd>119</LineEnd>
+    </MethodPos>
+    <MethodPos>
+      <MethodPos6>ClrVal</MethodPos6>
+      <MethodType>method</MethodType>
+      <ModuleType>Code</ModuleType>
+      <LineBeg>120</LineBeg>
+      <LineEnd>134</LineEnd>
+    </MethodPos>
+    <MethodPos>
+      <MethodPos7>SetVal</MethodPos7>
+      <MethodType>method</MethodType>
+      <ModuleType>Code</ModuleType>
+      <LineBeg>135</LineBeg>
+      <LineEnd>149</LineEnd>
+    </MethodPos>
+    <GenExtraFilesCount>0</GenExtraFilesCount>
+  </ComponentID_79>
   <UsedSrcFiles>
     <SrcFile0>Drivers\Common\ADCGetValue8.inc=1117352861</SrcFile0>
     <SrcFile1>Drivers\Common\CheckRegBits8_Rst.prg=1117352861</SrcFile1>

@@ -34,10 +34,7 @@
 /* User includes (#include below this line is not maintained by Processor Expert) */
 #include "ProcessorExpert.h"
 //variables y constantes para ultrasonido
-#define RANGO_US 8000 //valor por experimentacion
-extern unsigned int ultrasonido;
-extern unsigned char error;
-bool digitalDos;
+
 /*
 ** ===================================================================
 **     Event       :  Cpu_OnSwINT (module Events)
@@ -208,14 +205,7 @@ void TI1_OnInterrupt(void)
 void PWM1_OnEnd(void)
 {
   /* Write your code here ... */
-	error = Cap1_GetCaptureValue(&ultrasonido);
-	
-	
-	if(ultrasonido<RANGO_US){
-		digitalDos=TRUE; //bandera que indica que el sensor detecto algun movimiento
-	}
-	else
-		digitalDos=FALSE;
+	estado=CAPTURAR;
 }
 
 

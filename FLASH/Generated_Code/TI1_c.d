@@ -1,5 +1,4 @@
 
-
 Generated_Code/TI1_c.obj: \
 	D:/Proyecto/Microcontrolador/Project_Headers/../Generated_Code/TI1.c \
 	D:/Proyecto/Microcontrolador/Sources/Events.h \
@@ -15,5 +14,6 @@ Generated_Code/TI1_c.obj: \
 	D:/Proyecto/Microcontrolador/Generated_Code/Hall.h \
 	D:/Proyecto/Microcontrolador/Generated_Code/PWM1.h \
 	D:/Proyecto/Microcontrolador/Generated_Code/Cap1.h \
-	D:/Proyecto/Microcontrolador/Generated_Code/Bit1.h 
+	D:/Proyecto/Microcontrolador/Generated_Code/Iluminacion.h \
+	D:/Proyecto/Microcontrolador/Generated_Code/Ventilacion.h 
 

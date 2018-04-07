@@ -36,7 +36,8 @@
 #include "Hall.h"
 #include "PWM1.h"
 #include "Cap1.h"
-#include "Bit1.h"
+#include "Iluminacion.h"
+#include "Ventilacion.h"
 /* Include shared modules, which are used for whole project */
 #include "PE_Types.h"
 #include "PE_Error.h"
@@ -51,6 +52,8 @@
 #define ACELEROMETRO 0
 #define TEMPERATURA 1
 
+#define RANGO_ULTRASONIDO 8000 //valor por experimentacion
+
 /*Inicializacion de la maquina de estados*/
 unsigned char estado = ESPERAR;
 
@@ -59,12 +62,12 @@ unsigned int acelerometro;
 unsigned int temperatura;
 unsigned int ultrasonido;
 bool digitalUno;
-extern bool digitalDos;
+bool digitalDos;
 unsigned char error;
-unsigned char recibe;
 unsigned int bytesEnviados;
 unsigned char mensaje[5];
 unsigned char recibe;
+
 
 void main(void)
 {
@@ -79,7 +82,9 @@ void main(void)
   for(;;) {
 	  switch(estado){
 	  	  case ESPERAR:
+	  		  //do nothing
 	  		  break;
+	  	  
 	  	  case MEDIR:
 	  		  error = ADC_MeasureChan(TRUE,ACELEROMETRO);
 	  		  error = ADC_GetChanValue(ACELEROMETRO,&acelerometro);
@@ -90,6 +95,7 @@ void main(void)
 	  				 
 	  		  estado = ENVIAR;
 	  		  break;
+	  	  
 	  	  case ENVIAR:
 	  		  /*FORMACION DE TRAMA*/
 	  		  mensaje[0] = 0xF0+NRO_CANALES;  //Byte que dice la cantidad de canales
@@ -114,12 +120,45 @@ void main(void)
 	  		  /*WRAP TRAMA*/
 	  		  estado = ESPERAR;
 	  		  break;
+	  	  
 	  	  case RECIBIR:
-	  		  error = AS1_RecvChar(&recibe);
+	  		  error = AS1_RecvChar(&recibe); //Recibe en ASCII se convierte a binario
 	  		  recibe = recibe - 48;
-	  		  Bit1_PutVal(recibe);
+	  		  
+	  		  switch (recibe){
+	  		  	  case 0:
+	  		  		Iluminacion_PutVal(1);
+	  		  		Ventilacion_PutVal(1);
+	  		  		break;
+	  		  	  case 1:
+	  		  		Iluminacion_PutVal(0);
+	  		  		Ventilacion_PutVal(1);
+	  		  		break;
+	  		  	  case 2:
+	  		  		Iluminacion_PutVal(1);
+	  		  		Ventilacion_PutVal(0);
+	  		  		break;
+	  		  	  case 3:
+	  		  		Iluminacion_PutVal(0);
+	  		  		Ventilacion_PutVal(0);
+	  		  		break;
+	  		  	  default:
+	  		  		  break;
+	  		  }
 	  		  estado = ESPERAR;
 	  		  break;
+	  	  
+	  	  case CAPTURAR:
+	  		  error = Cap1_GetCaptureValue(&ultrasonido);
+	  		  
+	  		  if(ultrasonido<RANGO_ULTRASONIDO){
+	  			  digitalDos=TRUE; //bandera que indica que el sensor detecto algun movimiento
+	  		  }
+	  		  else
+	  			  digitalDos=FALSE;
+	  		  
+	  		  estado = MEDIR;
+	  	  
 	  	  default:
 	  		  break;
 	  }

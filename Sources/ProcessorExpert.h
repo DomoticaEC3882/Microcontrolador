@@ -17,6 +17,7 @@
 #define MEDIR 	1
 #define ENVIAR 	2
 #define RECIBIR 3
+#define CAPTURAR 4
 
 
 //Variables para la maquina de estados

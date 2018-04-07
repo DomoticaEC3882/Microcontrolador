@@ -41,7 +41,8 @@
 #include "Hall.h"
 #include "PWM1.h"
 #include "Cap1.h"
-#include "Bit1.h"
+#include "Iluminacion.h"
+#include "Ventilacion.h"
 
 
 
