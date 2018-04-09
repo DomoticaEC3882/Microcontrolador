@@ -6,7 +6,7 @@
 **     Component   : BitIO
 **     Version     : Component 02.086, Driver 03.27, CPU db: 3.00.067
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2018-04-06, 10:43, # CodeGen: 126
+**     Date/Time   : 2018-04-09, 07:30, # CodeGen: 127
 **     Abstract    :
 **         This component "BitIO" implements an one-bit input/output.
 **         It uses one bit/pin of a port.
@@ -18,20 +18,20 @@
 **             ----------------------------------------------------
 **                Number (on package)  |    Name
 **             ----------------------------------------------------
-**                       7             |  PTE7_TPM3CLK
+**                       57            |  PTD3_KBI2P3_SS2
 **             ----------------------------------------------------
 **
-**         Port name                   : PTE
+**         Port name                   : PTD
 **
-**         Bit number (in port)        : 7
-**         Bit mask of the port        : $0080
+**         Bit number (in port)        : 3
+**         Bit mask of the port        : $0008
 **
 **         Initial direction           : Output (direction cannot be changed)
 **         Initial output value        : 0
 **         Initial pull option         : off
 **
-**         Port data register          : PTED      [$0008]
-**         Port control register       : PTEDD     [$0009]
+**         Port data register          : PTDD      [$0006]
+**         Port control register       : PTDDD     [$0007]
 **
 **         Optimization for            : speed
 **     Contents    :
@@ -93,7 +93,7 @@
 ** ===================================================================
 */
 #define Iluminacion_GetVal() ( \
-    (bool)((getReg8(PTED) & 0x80U))    /* Return port data */ \
+    (bool)((getReg8(PTDD) & 0x08U))    /* Return port data */ \
   )
 
 /*
@@ -121,7 +121,7 @@ void Iluminacion_PutVal(bool Val);
 ** ===================================================================
 */
 #define Iluminacion_ClrVal() ( \
-    (void)clrReg8Bits(PTED, 0x80U)     /* PTED7=0x00U */ \
+    (void)clrReg8Bits(PTDD, 0x08U)     /* PTDD3=0x00U */ \
   )
 
 /*
@@ -134,7 +134,7 @@ void Iluminacion_PutVal(bool Val);
 ** ===================================================================
 */
 #define Iluminacion_SetVal() ( \
-    (void)setReg8Bits(PTED, 0x80U)     /* PTED7=0x01U */ \
+    (void)setReg8Bits(PTDD, 0x08U)     /* PTDD3=0x01U */ \
   )
 
 

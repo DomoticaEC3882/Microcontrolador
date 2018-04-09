@@ -1211,7 +1211,7 @@ autoselected pull
     <Enabled v="Y" />
     <Properties>
       <Component_name v="Iluminacion" />
-      <Pin_for_I_O v="PTD1_KBI2P1_MOSI2" />
+      <Pin_for_I_O v="PTE7_TPM3CLK" />
       <Pin_signal v="" />
       <Pull_resistor sel_value="no pull resistor">
         
@@ -1220,9 +1220,9 @@ autoselected pull
         <EmptySection_DummyValue />
       </Pull_resistor>
       <Open_drain v="push-pull" />
-      <Slew_rate_control_for_PTD1 v="no" />
-      <Drive_strength_for_PTD1 v="High" />
-      <Direction v="Input/Output" />
+      <Slew_rate_control_for_PTE7 v="no" />
+      <Drive_strength_for_PTE7 v="High" />
+      <Direction v="Output" />
       <group name="Initialization">
         <Init__direction v="Output" />
         <Init__value v="0" />
@@ -1232,7 +1232,7 @@ autoselected pull
     </Properties>
     <Methods>
       <GetDir v="don&amp;apos;t generate code" />
-      <SetDir v="generate code" />
+      <SetDir v="don&amp;apos;t generate code" />
       <SetInput v="don&amp;apos;t generate code" />
       <SetOutput v="don&amp;apos;t generate code" />
       <GetVal v="generate code" />
@@ -1249,7 +1249,7 @@ autoselected pull
     <Enabled v="Y" />
     <Properties>
       <Component_name v="Ventilacion" />
-      <Pin_for_I_O v="PTD0_KBI2P0_SPSCK2" />
+      <Pin_for_I_O v="PTC3_TPM3CH3" />
       <Pin_signal v="" />
       <Pull_resistor sel_value="no pull resistor">
         
@@ -1258,9 +1258,9 @@ autoselected pull
         <EmptySection_DummyValue />
       </Pull_resistor>
       <Open_drain v="push-pull" />
-      <Slew_rate_control_for_PTD0 v="no" />
-      <Drive_strength_for_PTD0 v="High" />
-      <Direction v="Input/Output" />
+      <Slew_rate_control_for_PTC3 v="no" />
+      <Drive_strength_for_PTC3 v="High" />
+      <Direction v="Output" />
       <group name="Initialization">
         <Init__direction v="Output" />
         <Init__value v="0" />
@@ -1270,7 +1270,7 @@ autoselected pull
     </Properties>
     <Methods>
       <GetDir v="don&amp;apos;t generate code" />
-      <SetDir v="generate code" />
+      <SetDir v="don&amp;apos;t generate code" />
       <SetInput v="don&amp;apos;t generate code" />
       <SetOutput v="don&amp;apos;t generate code" />
       <GetVal v="generate code" />

@@ -1211,7 +1211,7 @@ autoselected pull
     <Enabled v="Y" />
     <Properties>
       <Component_name v="Iluminacion" />
-      <Pin_for_I_O v="PTE7_TPM3CLK" />
+      <Pin_for_I_O v="PTD3_KBI2P3_SS2" />
       <Pin_signal v="" />
       <Pull_resistor sel_value="no pull resistor">
         
@@ -1220,8 +1220,8 @@ autoselected pull
         <EmptySection_DummyValue />
       </Pull_resistor>
       <Open_drain v="push-pull" />
-      <Slew_rate_control_for_PTE7 v="no" />
-      <Drive_strength_for_PTE7 v="High" />
+      <Slew_rate_control_for_PTD3 v="no" />
+      <Drive_strength_for_PTD3 v="High" />
       <Direction v="Output" />
       <group name="Initialization">
         <Init__direction v="Output" />
@@ -1249,7 +1249,7 @@ autoselected pull
     <Enabled v="Y" />
     <Properties>
       <Component_name v="Ventilacion" />
-      <Pin_for_I_O v="PTC3_TPM3CH3" />
+      <Pin_for_I_O v="PTA7_TPM2CH2_ADP9" />
       <Pin_signal v="" />
       <Pull_resistor sel_value="no pull resistor">
         
@@ -1258,8 +1258,8 @@ autoselected pull
         <EmptySection_DummyValue />
       </Pull_resistor>
       <Open_drain v="push-pull" />
-      <Slew_rate_control_for_PTC3 v="no" />
-      <Drive_strength_for_PTC3 v="High" />
+      <Slew_rate_control_for_PTA7 v="no" />
+      <Drive_strength_for_PTA7 v="High" />
       <Direction v="Output" />
       <group name="Initialization">
         <Init__direction v="Output" />

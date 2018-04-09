@@ -127,20 +127,20 @@ void main(void)
 	  		  
 	  		  switch (recibe){
 	  		  	  case 0:
-	  		  		Iluminacion_PutVal(1);
-	  		  		Ventilacion_PutVal(1);
+	  		  		Iluminacion_PutVal(0);
+	  		  		Ventilacion_PutVal(0);
 	  		  		break;
 	  		  	  case 1:
-	  		  		Iluminacion_PutVal(0);
-	  		  		Ventilacion_PutVal(1);
-	  		  		break;
-	  		  	  case 2:
 	  		  		Iluminacion_PutVal(1);
 	  		  		Ventilacion_PutVal(0);
 	  		  		break;
-	  		  	  case 3:
+	  		  	  case 2:
 	  		  		Iluminacion_PutVal(0);
-	  		  		Ventilacion_PutVal(0);
+	  		  		Ventilacion_PutVal(1);
+	  		  		break;
+	  		  	  case 3:
+	  		  		Iluminacion_PutVal(1);
+	  		  		Ventilacion_PutVal(1);
 	  		  		break;
 	  		  	  default:
 	  		  		  break;

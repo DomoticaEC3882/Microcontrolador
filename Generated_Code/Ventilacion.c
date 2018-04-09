@@ -6,7 +6,7 @@
 **     Component   : BitIO
 **     Version     : Component 02.086, Driver 03.27, CPU db: 3.00.067
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2018-04-06, 10:43, # CodeGen: 126
+**     Date/Time   : 2018-04-09, 07:30, # CodeGen: 127
 **     Abstract    :
 **         This component "BitIO" implements an one-bit input/output.
 **         It uses one bit/pin of a port.
@@ -18,20 +18,20 @@
 **             ----------------------------------------------------
 **                Number (on package)  |    Name
 **             ----------------------------------------------------
-**                       24            |  PTC3_TPM3CH3
+**                       47            |  PTA7_TPM2CH2_ADP9
 **             ----------------------------------------------------
 **
-**         Port name                   : PTC
+**         Port name                   : PTA
 **
-**         Bit number (in port)        : 3
-**         Bit mask of the port        : $0008
+**         Bit number (in port)        : 7
+**         Bit mask of the port        : $0080
 **
 **         Initial direction           : Output (direction cannot be changed)
 **         Initial output value        : 0
 **         Initial pull option         : off
 **
-**         Port data register          : PTCD      [$0004]
-**         Port control register       : PTCDD     [$0005]
+**         Port data register          : PTAD      [$0000]
+**         Port control register       : PTADD     [$0001]
 **
 **         Optimization for            : speed
 **     Contents    :
@@ -112,9 +112,9 @@ bool Ventilacion_GetVal(void)
 void Ventilacion_PutVal(bool Val)
 {
   if (Val) {
-    setReg8Bits(PTCD, 0x08U);          /* PTCD3=0x01U */
+    setReg8Bits(PTAD, 0x80U);          /* PTAD7=0x01U */
   } else { /* !Val */
-    clrReg8Bits(PTCD, 0x08U);          /* PTCD3=0x00U */
+    clrReg8Bits(PTAD, 0x80U);          /* PTAD7=0x00U */
   } /* !Val */
 }
 

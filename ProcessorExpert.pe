@@ -3,8 +3,8 @@
   <Header>
     <Name>ProcessorExpert</Name>
     <SavedBy>Diego</SavedBy>
-    <ModificationStamp>118</ModificationStamp>
-    <Date>2018-04-06</Date>
+    <ModificationStamp>119</ModificationStamp>
+    <Date>2018-04-09</Date>
     <IDE>Eclipse IDE</IDE>
     <PEversion>1.8.0.RT5_b1337-1809</PEversion>
   </Header>
@@ -14643,7 +14643,7 @@
         <ItemSymbol>_Pin</ItemSymbol>
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
-        <Value>PTE7_TPM3CLK</Value>
+        <Value>PTD3_KBI2P3_SS2</Value>
         <SharedPrphMode>false</SharedPrphMode>
       </ItemState>
       <ItemState>
@@ -14918,7 +14918,7 @@
         <ItemSymbol>_Pin</ItemSymbol>
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
-        <Value>PTC3_TPM3CH3</Value>
+        <Value>PTA7_TPM2CH2_ADP9</Value>
         <SharedPrphMode>false</SharedPrphMode>
       </ItemState>
       <ItemState>

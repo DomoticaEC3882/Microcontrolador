@@ -7,7 +7,7 @@
 **     Version     : Component 01.003, Driver 01.40, CPU db: 3.00.067
 **     Datasheet   : MC9S08QE128RM Rev. 2 6/2007
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2018-04-06, 10:43, # CodeGen: 126
+**     Date/Time   : 2018-04-09, 07:30, # CodeGen: 127
 **     Abstract    :
 **         This component "MC9S08QE128_80" contains initialization 
 **         of the CPU and provides basic methods and events for 
@@ -263,22 +263,24 @@ void PE_low_level_init(void)
   setReg8Bits(PTBD, 0x02U);             
   /* APCTL1: ADPC1=1,ADPC0=1 */
   setReg8Bits(APCTL1, 0x03U);           
-  /* PTCPE: PTCPE3=0,PTCPE0=1 */
-  clrSetReg8Bits(PTCPE, 0x08U, 0x01U);  
-  /* PTCD: PTCD3=0,PTCD2=0 */
-  clrReg8Bits(PTCD, 0x0CU);             
-  /* PTCDD: PTCDD3=1,PTCDD2=1,PTCDD0=0 */
-  clrSetReg8Bits(PTCDD, 0x01U, 0x0CU);  
-  /* PTAPE: PTAPE6=0 */
-  clrReg8Bits(PTAPE, 0x40U);            
-  /* PTADD: PTADD6=0 */
-  clrReg8Bits(PTADD, 0x40U);            
-  /* PTED: PTED7=0 */
-  clrReg8Bits(PTED, 0x80U);             
-  /* PTEPE: PTEPE7=0 */
-  clrReg8Bits(PTEPE, 0x80U);            
-  /* PTEDD: PTEDD7=1 */
-  setReg8Bits(PTEDD, 0x80U);            
+  /* PTCPE: PTCPE0=1 */
+  setReg8Bits(PTCPE, 0x01U);            
+  /* PTCD: PTCD2=0 */
+  clrReg8Bits(PTCD, 0x04U);             
+  /* PTCDD: PTCDD2=1,PTCDD0=0 */
+  clrSetReg8Bits(PTCDD, 0x01U, 0x04U);  
+  /* PTAPE: PTAPE7=0,PTAPE6=0 */
+  clrReg8Bits(PTAPE, 0xC0U);            
+  /* PTAD: PTAD7=0 */
+  clrReg8Bits(PTAD, 0x80U);             
+  /* PTADD: PTADD7=1,PTADD6=0 */
+  clrSetReg8Bits(PTADD, 0x40U, 0x80U);  
+  /* PTDD: PTDD3=0 */
+  clrReg8Bits(PTDD, 0x08U);             
+  /* PTDPE: PTDPE3=0 */
+  clrReg8Bits(PTDPE, 0x08U);            
+  /* PTDDD: PTDDD3=1 */
+  setReg8Bits(PTDDD, 0x08U);            
   /* PTASE: PTASE7=0,PTASE6=0,PTASE4=0,PTASE3=1,PTASE2=1,PTASE1=0,PTASE0=0 */
   clrSetReg8Bits(PTASE, 0xD3U, 0x0CU);  
   /* PTBSE: PTBSE7=0,PTBSE6=0,PTBSE5=0,PTBSE4=0,PTBSE3=0,PTBSE2=0,PTBSE1=0,PTBSE0=0 */

@@ -1,4 +1,5 @@
 
+
 Generated_Code/ADC_c.obj: \
 	D:/Proyecto/Microcontrolador/Project_Headers/../Generated_Code/ADC.c \
 	D:/Proyecto/Microcontrolador/Sources/Events.h \
