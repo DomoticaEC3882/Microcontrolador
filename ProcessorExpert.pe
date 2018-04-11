@@ -3,7 +3,7 @@
   <Header>
     <Name>ProcessorExpert</Name>
     <SavedBy>Diego</SavedBy>
-    <ModificationStamp>119</ModificationStamp>
+    <ModificationStamp>121</ModificationStamp>
     <Date>2018-04-09</Date>
     <IDE>Eclipse IDE</IDE>
     <PEversion>1.8.0.RT5_b1337-1809</PEversion>
@@ -28,7 +28,7 @@
     <UseExistingModules>true</UseExistingModules>
     <RenamePeripheries>false</RenamePeripheries>
     <Autodependency>true</Autodependency>
-    <ProjectCompNumb>80</ProjectCompNumb>
+    <ProjectCompNumb>83</ProjectCompNumb>
     <DelUnusedPreviouslyGenFiles>true</DelUnusedPreviouslyGenFiles>
     <GeneratedCodeFrozen>false</GeneratedCodeFrozen>
     <AssignInitComponentNameToPrph>true</AssignInitComponentNameToPrph>
@@ -14643,7 +14643,7 @@
         <ItemSymbol>_Pin</ItemSymbol>
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
-        <Value>PTD3_KBI2P3_SS2</Value>
+        <Value>PTA3_KBI1P3_SCL1_ADP3</Value>
         <SharedPrphMode>false</SharedPrphMode>
       </ItemState>
       <ItemState>

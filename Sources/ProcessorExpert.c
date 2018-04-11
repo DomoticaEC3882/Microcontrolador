@@ -52,7 +52,7 @@
 #define ACELEROMETRO 0
 #define TEMPERATURA 1
 
-#define RANGO_ULTRASONIDO 8000 //valor por experimentacion
+#define RANGO_ULTRASONIDO 1800 //valor por experimentacion
 
 /*Inicializacion de la maquina de estados*/
 unsigned char estado = ESPERAR;
